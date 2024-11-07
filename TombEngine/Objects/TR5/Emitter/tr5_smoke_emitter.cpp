@@ -1,4 +1,3 @@
-#include "framework.h"
 #include "Objects/TR5/Emitter/tr5_smoke_emitter.h"
 
 #include "Game/collision/collide_room.h"
@@ -7,7 +6,6 @@
 #include "Game/effects/Bubble.h"
 #include "Game/effects/effects.h"
 #include "Game/items.h"
-#include "Math/Math.h"
 #include "Objects/objectslist.h"
 #include "Renderer/RendererEnums.h"
 #include "Specific/clock.h"

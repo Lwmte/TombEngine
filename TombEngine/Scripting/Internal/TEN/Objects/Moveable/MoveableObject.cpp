@@ -1,6 +1,6 @@
-#include "framework.h"
 #include "Scripting/Internal/TEN/Objects/Moveable/MoveableObject.h"
 
+#include "Game/camera.h"
 #include "Game/collision/floordata.h"
 #include "Game/control/lot.h"
 #include "Game/effects/debris.h"
@@ -9,7 +9,6 @@
 #include "Game/Lara/lara.h"
 #include "Game/Lara/lara_helpers.h"
 #include "Game/Setup.h"
-#include "Math/Math.h"
 #include "Objects/objectslist.h"
 #include "Scripting/Internal/ReservedScriptNames.h"
 #include "Scripting/Internal/ScriptAssert.h"
@@ -23,7 +22,6 @@
 
 using namespace TEN::Collision::Floordata;
 using namespace TEN::Effects::Items;
-using namespace TEN::Math;
 
 /***
 Represents any object inside the game world.
@@ -38,7 +36,6 @@ constexpr auto LUA_CLASS_NAME{ ScriptReserved_Moveable };
 
 static auto IndexError = index_error_maker(Moveable, LUA_CLASS_NAME);
 static auto NewIndexError = newindex_error_maker(Moveable, LUA_CLASS_NAME);
-
 
 Moveable::Moveable(short num, bool alreadyInitialized) : m_item{ &g_Level.Items[num] }, m_num{ num }, m_initialized{ alreadyInitialized }
 {

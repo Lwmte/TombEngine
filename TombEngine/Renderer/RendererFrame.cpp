@@ -1,4 +1,3 @@
-#include "framework.h"
 #include "Renderer/Renderer.h"
 
 #include "Game/animation.h"
@@ -9,7 +8,6 @@
 #include "Game/Lara/lara.h"
 #include "Game/Setup.h"
 #include "Game/spotcam.h"
-#include "Math/Math.h"
 #include "Objects/Effects/LensFlare.h"
 #include "Renderer/RenderView.h"
 #include "Scripting/Include/Flow/ScriptInterfaceFlowHandler.h"
@@ -17,7 +15,6 @@
 
 using namespace TEN::Entities::Effects;
 using namespace TEN::Collision::Sphere;
-using namespace TEN::Math;
 
 namespace TEN::Renderer
 {

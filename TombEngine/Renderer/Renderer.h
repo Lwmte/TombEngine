@@ -1,12 +1,5 @@
 #pragma once
-#include <wrl/client.h>
-#include <CommonStates.h>
-#include <SpriteFont.h>
-#include <PrimitiveBatch.h>
-#include <d3d9types.h>
-#include <SimpleMath.h>
-#include <PostProcess.h>
-#include "Math/Math.h"
+
 #include "Game/control/box.h"
 #include "Game/items.h"
 #include "Game/animation.h"
@@ -69,8 +62,6 @@
 #include "Renderer/Structures/RendererStar.h"
 
 enum GAME_OBJECT_ID : short;
-enum class SphereSpaceType;
-class EulerAngles;
 struct AnimFrameInterpData;
 struct CAMERA_INFO;
 
@@ -82,7 +73,6 @@ namespace TEN::Renderer
 	using namespace TEN::Renderer::ConstantBuffers;
 	using namespace TEN::Renderer::Graphics;
 	using namespace TEN::Renderer::Structures;
-	using namespace DirectX::SimpleMath;
 
 	using TexturePair = std::tuple<Texture2D, Texture2D>;
 
@@ -647,7 +637,7 @@ namespace TEN::Renderer
 		void GetBoneMatrix(short itemNumber, int jointIndex, Matrix* outMatrix);
 		void DrawObjectIn2DSpace(int objectNumber, Vector2 pos2D, EulerAngles orient, float scale1, float opacity = 1.0f, int meshBits = NO_JOINT_BITS);
 		void SetLoadingScreen(std::wstring& fileName);
-		void SetTextureOrDefault(Texture2D& texture, std::wstring path);
+		void SetTextureOrDefault(Texture2D& texture, const std::wstring& path);
 		std::string GetDefaultAdapterName();
 		void SaveOldState();
 

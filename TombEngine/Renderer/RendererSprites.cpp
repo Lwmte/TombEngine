@@ -1,7 +1,7 @@
-#include "framework.h"
+#include "Renderer/Renderer.h"
+
 #include "Renderer/Structures/RendererSprite.h"
 #include "Renderer/Structures/RendererSpriteBucket.h"
-#include "Renderer/Renderer.h"
 
 namespace TEN::Renderer
 {
@@ -525,4 +525,3 @@ namespace TEN::Renderer
 		_numSortedTriangles += (int)_sortedPolygonsVertices.size() / 3;
 	}
 }
-

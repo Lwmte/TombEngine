@@ -1,17 +1,12 @@
-#include "framework.h"
 #include "Game/effects/explosion.h"
 
 #include "Game/effects/effects.h"
 #include "Game/effects/spark.h"
 #include "Game/effects/tomb4fx.h"
 #include "Game/Setup.h"
-#include "Math/Math.h"
-
-using namespace TEN::Math;
 
 namespace TEN::Effects::Explosion
 {
-	using namespace DirectX::SimpleMath;
 	using namespace TEN::Effects::Spark;
 
 	std::array<ExplosionParticle, 64> explosionParticles;
