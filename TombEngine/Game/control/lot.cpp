@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/control/lot.h"
 
 #include "Game/control/box.h"

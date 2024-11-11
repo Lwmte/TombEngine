@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR2/Entity/tr2_monk.h"
 
 #include "Game/control/box.h"

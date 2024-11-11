@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Entity/tr4_lara_double.h"
 
 #include "Game/animation.h"

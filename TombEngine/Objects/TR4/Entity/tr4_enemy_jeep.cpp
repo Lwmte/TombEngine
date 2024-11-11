@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Entity/tr4_enemy_jeep.h"
 
 #include "Game/animation.h"
@@ -16,12 +17,14 @@
 #include "Game/misc.h"
 #include "Game/people.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Renderer/Renderer.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
 
 using namespace TEN::Collision::Point;
 using namespace TEN::Effects::Smoke;
+using namespace TEN::Math;
 using namespace TEN::Renderer;
 
 /// item.ItemFlags[1] = AI_X2 behaviour

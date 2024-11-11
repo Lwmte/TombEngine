@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Trap/SpikyWall.h"
 
 #include "Game/collision/collide_item.h"
@@ -10,11 +11,13 @@
 #include "Game/items.h"
 #include "Game/Lara/lara.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
 
 using namespace TEN::Collision::Point;
 using namespace TEN::Collision::Sphere;
+using namespace TEN::Math;
 
 // NOTES:
 // ItemFlags[0]: forward velocity.

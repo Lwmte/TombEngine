@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Effects/flame_emitters.h"
 
 #include "Game/animation.h"
@@ -13,6 +14,7 @@
 #include "Game/Lara/lara.h"
 #include "Game/Lara/lara_helpers.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "Specific/clock.h"
 #include "Specific/Input/Input.h"

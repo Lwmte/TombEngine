@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Object/WraithTrap.h"
 
 #include "Game/animation.h"
@@ -13,6 +14,7 @@
 
 using namespace TEN::Effects::Electricity;
 using namespace TEN::Effects::Spark;
+using namespace TEN::Input;
 
 namespace TEN::Entities::TR4
 {

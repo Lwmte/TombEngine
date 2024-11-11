@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/Lara/lara_struct.h"
 
 // TODO: Merge with Info.h.

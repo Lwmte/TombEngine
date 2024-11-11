@@ -1,7 +1,8 @@
+#include "framework.h"
 #include "Math/Objects/Vector3i.h"
 
-namespace TEN::Math
-{
+//namespace TEN::Math
+//{
 	const Vector3i Vector3i::Zero = Vector3i(0, 0, 0);
 
 	Vector3i::Vector3i(const Vector3& vector)
@@ -118,4 +119,4 @@ namespace TEN::Math
 	{
 		return Vector3i((int)round(x / scalar), (int)round(y / scalar), (int)round(z / scalar));
 	}
-}
+//}

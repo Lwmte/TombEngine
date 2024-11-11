@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "tr5_crowdove_switch.h"
 
 #include "Game/animation.h"

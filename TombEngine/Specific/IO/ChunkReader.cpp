@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Specific/IO/ChunkReader.h"
 
 int ChunkReader::readInt32()

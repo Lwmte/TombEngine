@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Vehicles/jeep.h"
 
 #include "Game/animation.h"
@@ -14,6 +15,7 @@
 #include "Game/Lara/lara_flare.h"
 #include "Game/Lara/lara_one_gun.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Objects/TR4/Vehicles/jeep_info.h"
 #include "Objects/Utils/VehicleHelpers.h"
 #include "Renderer/RendererEnums.h"

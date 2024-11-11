@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Object/polerope.h"
 
 #include "Game/collision/collide_item.h"
@@ -10,11 +11,13 @@
 #include "Game/Lara/lara_helpers.h"
 #include "Game/Lara/lara_struct.h"
 #include "Game/Lara/lara_tests.h"
+#include "Math/Math.h"
 #include "Specific/Input/Input.h"
 #include "Specific/level.h"
 
 using namespace TEN::Collision::Sphere;
 using namespace TEN::Input;
+using namespace TEN::Math;
 
 namespace TEN::Entities::Generic
 {

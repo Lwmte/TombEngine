@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Scripting/Include/ScriptInterfaceState.h"
 
 #include "Scripting/Internal/ReservedScriptNames.h"

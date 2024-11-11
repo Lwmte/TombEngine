@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Traps/CrumblingPlatform.h"
 
 #include "Game/collision/collide_item.h"

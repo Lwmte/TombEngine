@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/Lara/PlayerStateMachine.h"
 
 #include "Game/collision/collide_room.h"

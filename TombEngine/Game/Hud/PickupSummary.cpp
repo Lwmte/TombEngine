@@ -1,11 +1,14 @@
+#include "framework.h"
 #include "Game/Hud/PickupSummary.h"
 
 #include "Game/pickup/pickup.h"
 #include "Game/pickup/pickup_ammo.h"
 #include "Game/pickup/pickup_consumable.h"
+#include "Math/Math.h"
 #include "Renderer/Renderer.h"
 #include "Specific/clock.h"
 
+using namespace TEN::Math;
 using TEN::Renderer::g_Renderer;
 
 namespace TEN::Hud

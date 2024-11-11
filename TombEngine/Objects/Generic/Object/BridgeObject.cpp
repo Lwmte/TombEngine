@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Object/BridgeObject.h"
 
 #include "Game/items.h"

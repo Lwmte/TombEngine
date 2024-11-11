@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/control/control.h"
 
 class ScriptInterfaceLevel;

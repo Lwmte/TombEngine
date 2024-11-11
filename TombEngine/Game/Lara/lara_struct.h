@@ -1,7 +1,9 @@
 #pragma once
-
 #include "Game/Lara/PlayerContext.h"
+#include "Math/Math.h"
 #include "Objects/objectslist.h"
+
+using namespace TEN::Math;
 
 struct CreatureInfo;
 struct FX_INFO;

@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR2/Entity/tr2_mercenary.h"
 
 #include "Game/control/box.h"
@@ -7,6 +8,7 @@
 #include "Game/misc.h"
 #include "Game/people.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Specific/level.h"
 
 namespace TEN::Entities::Creatures::TR2

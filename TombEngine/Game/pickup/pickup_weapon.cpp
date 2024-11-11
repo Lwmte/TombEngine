@@ -1,4 +1,7 @@
+#include "framework.h"
 #include "Game/pickup/pickup_weapon.h"
+
+#include <array>
 
 #include "Game/Lara/lara_fire.h"
 #include "Game/Lara/lara_struct.h"

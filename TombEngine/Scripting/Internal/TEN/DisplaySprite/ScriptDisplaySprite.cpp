@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Scripting/Internal/TEN/DisplaySprite/ScriptDisplaySprite.h"
 
 #include "Game/effects/DisplaySprite.h"

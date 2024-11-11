@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR1/Entity/Centaur.h"
 
 #include "Game/animation.h"

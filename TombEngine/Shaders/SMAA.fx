@@ -78,6 +78,7 @@ cbuffer SMAABuffer : register(b13)
 #define PS_VERSION ps_4_0
 #endif
 
+
 /**
  * DepthStencilState's and company
  */
@@ -111,6 +112,7 @@ BlendState NoBlending {
     BlendEnable[0] = FALSE;
 };
 
+
 /**
  * Input textures
  */
@@ -132,6 +134,7 @@ Texture2D blendTex : register(t6);
  */
 Texture2D areaTex : register(t7);
 Texture2D searchTex : register(t8);
+
 
 /**
  * Function wrappers

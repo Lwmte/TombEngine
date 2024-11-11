@@ -1,13 +1,9 @@
 #pragma once
-
 #include "Math/Objects/EulerAngles.h"
 #include "Math/Objects/Vector3i.h"
 
-namespace TEN::Math
-{
-	class EulerAngles;
-	class Vector3i;
-
+//namespace TEN::Math
+//{
 	class Pose
 	{
 	public:
@@ -22,7 +18,7 @@ namespace TEN::Math
 
 		// Constructors
 
-		Pose() = default;
+		Pose();
 		Pose(const Vector3i& pos);
 		Pose(int xPos, int yPos, int zPos);
 		Pose(const EulerAngles& orient);
@@ -43,4 +39,4 @@ namespace TEN::Math
 		bool operator ==(const Pose& pose) const;
 		bool operator !=(const Pose& pose) const;
 	};
-}
+//}

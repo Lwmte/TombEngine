@@ -1,5 +1,8 @@
 #pragma once
+#include "Math/Objects/EulerAngles.h"
 
+class EulerAngles;
+class Pose;
 namespace sol { class state; }
 
 class Rotation

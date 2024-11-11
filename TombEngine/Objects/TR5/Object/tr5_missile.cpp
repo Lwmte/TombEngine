@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "tr5_missile.h"
 #include "Game/items.h"
 #include "Game/collision/collide_room.h"
@@ -12,9 +13,11 @@
 #include "Objects/TR5/Entity/tr5_hydra.h"
 #include "Game/collision/collide_item.h"
 #include "Game/effects/item_fx.h"
+#include "Math/Math.h"
 
 using namespace TEN::Collision::Point;
 using namespace TEN::Effects::Items;
+using namespace TEN::Math;
 
 int DebrisFlags;
 

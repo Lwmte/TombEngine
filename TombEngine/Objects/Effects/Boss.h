@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/items.h"
 
 namespace TEN::Effects::Boss

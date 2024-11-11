@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR3/Vehicles/kayak.h"
 
 #include "Game/animation.h"

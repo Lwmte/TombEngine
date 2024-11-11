@@ -1,4 +1,7 @@
-#include "Scripting/Internal/TEN/Logic/LogicHandler.h"
+#include "framework.h"
+#include "LogicHandler.h"
+
+#include <filesystem>
 
 #include "Game/control/volume.h"
 #include "Game/effects/Electricity.h"
@@ -910,6 +913,7 @@ void LogicHandler::ExecuteFunction(const std::string& name, TEN::Control::Volume
 		func(nullptr, arguments);
 	}
 }
+
 
 void LogicHandler::OnStart()
 {

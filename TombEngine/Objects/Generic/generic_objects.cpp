@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/generic_objects.h"
 #include "Objects/Generic/Object/objects.h"
 #include "Objects/Utils/object_helper.h"

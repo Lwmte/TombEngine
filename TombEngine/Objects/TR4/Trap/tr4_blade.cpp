@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Trap/tr4_blade.h"
 
 #include "Game/collision/collide_item.h"

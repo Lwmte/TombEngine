@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scripting/Internal/TEN/Objects/NamedBase.h"
+#include "Math/Math.h"
 
 struct SoundSourceInfo;
 

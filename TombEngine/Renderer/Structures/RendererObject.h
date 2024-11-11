@@ -1,11 +1,14 @@
 #pragma once
-
-#include "Renderer/RendererEnums.h"
+#include <vector>
+#include <SimpleMath.h>
 #include "Renderer/Structures/RendererBone.h"
 #include "Renderer/Structures/RendererMesh.h"
+#include "Renderer/RendererEnums.h"
 
 namespace TEN::Renderer::Structures
 {
+	using namespace DirectX::SimpleMath;
+
 	struct RendererObject
 	{
 		int Id;

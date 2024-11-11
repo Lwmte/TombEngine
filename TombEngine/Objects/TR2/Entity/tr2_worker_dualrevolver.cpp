@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR2/Entity/tr2_worker_dualrevolver.h"
 
 #include "Game/control/box.h"

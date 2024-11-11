@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/Hud/TargetHighlighter.h"
 
 #include "Game/camera.h"
@@ -5,11 +6,13 @@
 #include "Game/items.h"
 #include "Game/lara/lara_fire.h"
 #include "Game/lara/lara_helpers.h"
+#include "Math/Math.h"
 #include "Renderer/Renderer.h"
 #include "Specific/configuration.h"
 #include "Specific/trutils.h"
 
 using namespace TEN::Effects::DisplaySprite;
+using namespace TEN::Math;
 using namespace TEN::Utils;
 using TEN::Renderer::g_Renderer;
 

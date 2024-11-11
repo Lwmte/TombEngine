@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/Lara/lara_two_guns.h"
 
 #include "Game/animation.h"
@@ -11,12 +12,14 @@
 #include "Game/Lara/lara_struct.h"
 #include "Game/savegame.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Objects/game_object_ids.h"
 #include "Sound/sound.h"
 #include "Specific/Input/Input.h"
 #include "Specific/level.h"
 
 using namespace TEN::Input;
+using namespace TEN::Math;
 
 struct WeaponAnimData
 {

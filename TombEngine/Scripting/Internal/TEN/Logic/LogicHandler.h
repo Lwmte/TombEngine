@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_set>
 
 #include "Game/items.h"
 #include "Scripting/Include/ScriptInterfaceGame.h"

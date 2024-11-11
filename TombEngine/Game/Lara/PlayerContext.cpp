@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/Lara/PlayerContext.h"
 
 #include "Game/collision/collide_item.h"

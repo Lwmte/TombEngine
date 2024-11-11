@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Entity/tr5_brownbeast.h"
 
 #include "Game/control/box.h"
@@ -9,7 +10,10 @@
 #include "Game/Lara/lara.h"
 #include "Game/Setup.h"
 #include "Sound/sound.h"
+#include "Math/Math.h"
 #include "Specific/level.h"
+
+using namespace TEN::Math;
 
 namespace TEN::Entities::Creatures::TR5
 {

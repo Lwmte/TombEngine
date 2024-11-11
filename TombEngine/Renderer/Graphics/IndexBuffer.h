@@ -1,6 +1,9 @@
 #pragma once
-
+#include <d3d11.h>
+#include <vector>
+#include <wrl/client.h>
 #include "Renderer/RendererUtils.h"
+#include "Game/Debug/Debug.h"
 #include "Specific/fast_vector.h"
 
 namespace TEN::Renderer::Graphics
@@ -31,11 +34,11 @@ namespace TEN::Renderer::Graphics
 				initData.pSysMem = indices;
 				initData.SysMemPitch = sizeof(int) * numIndices;
 
-				ThrowIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
 			}
 			else
 			{
-				ThrowIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
 			}
 
 			_numIndices = numIndices;
@@ -56,11 +59,11 @@ namespace TEN::Renderer::Graphics
 				initData.pSysMem = indices.data();
 				initData.SysMemPitch = sizeof(int) * numIndices;
 
-				ThrowIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
 			}
 			else
 			{
-				ThrowIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
 			}
 
 			_numIndices = numIndices;

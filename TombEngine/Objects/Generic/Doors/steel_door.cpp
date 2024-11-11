@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Doors/generic_doors.h"
 #include "Specific/level.h"
 #include "Game/control/control.h"
@@ -12,6 +13,7 @@
 #include "Game/collision/Sphere.h"
 #include "Game/Lara/lara_struct.h"
 #include "Game/Lara/lara.h"
+#include "Math/Math.h"
 #include "Game/misc.h"
 #include "Objects/Generic/Doors/steel_door.h"
 #include "Game/collision/collide_room.h"

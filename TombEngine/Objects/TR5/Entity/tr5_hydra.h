@@ -1,5 +1,7 @@
 #pragma once
 
+class Vector3i;
+
 namespace TEN::Entities::Creatures::TR5
 {
 	void InitializeHydra(short itemNumber);

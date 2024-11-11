@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Scripting/Internal/TEN/Flow/InventoryItem/InventoryItem.h"
 
 #include "Scripting/Internal/ReservedScriptNames.h"

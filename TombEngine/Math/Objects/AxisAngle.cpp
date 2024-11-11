@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Math/Objects/AxisAngle.h"
 
 #include "Math/Constants.h"
@@ -5,8 +6,10 @@
 #include "Math/Legacy.h"
 #include "Math/Objects/EulerAngles.h"
 
-namespace TEN::Math
-{
+using namespace TEN::Math;
+
+//namespace TEN::Math
+//{
 	const AxisAngle AxisAngle::Identity = AxisAngle(Vector3::Backward, 0);
 
 	AxisAngle::AxisAngle(const Vector3& axis, short angle)
@@ -163,4 +166,4 @@ namespace TEN::Math
 		auto quat1 = axisAngle.ToQuaternion();
 		return AxisAngle(quat0 * quat1);
 	}
-}
+//}

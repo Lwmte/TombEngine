@@ -1,8 +1,11 @@
+#include "framework.h"
 #include "Game/Hud/Hud.h"
 
 #include "Game/Hud/PickupSummary.h"
 #include "Game/Hud/StatusBars.h"
 #include "Game/items.h"
+
+using namespace TEN::Math;
 
 namespace TEN::Hud
 {

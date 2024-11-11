@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/effects/item_fx.h"
 
 #include "Game/collision/collide_room.h"

@@ -1,4 +1,6 @@
 #pragma once
+#include <unordered_map>
+#include <unordered_set>
 
 #include "Scripting/Internal/LuaHandler.h"
 #include "Scripting/Include/Objects/ScriptInterfaceObjectsHandler.h"
@@ -49,6 +51,7 @@ private:
 	std::unordered_set<short>		 								m_collidingItems{};
 	std::unordered_set<short>		 								m_collidingItemsToRemove{};
 	sol::table m_table_objects;
+
 
 	void AssignLara() override;
 

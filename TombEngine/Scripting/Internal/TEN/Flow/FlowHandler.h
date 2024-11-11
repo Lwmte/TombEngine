@@ -1,4 +1,5 @@
 #pragma once
+#include <string_view>
 
 #include "Scripting/Include/Flow/ScriptInterfaceFlowHandler.h"
 #include "Scripting/Include/ScriptInterfaceGame.h"

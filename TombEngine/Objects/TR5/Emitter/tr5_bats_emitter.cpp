@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Emitter/tr5_bats_emitter.h"
 
 #include "Game/animation.h"
@@ -7,8 +8,11 @@
 #include "Game/items.h"
 #include "Game/Lara/lara.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
+
+using namespace TEN::Math;
 
 int NextBat;
 BatData Bats[NUM_BATS];

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Game/items.h"
-
 struct ItemInfo;
 
 namespace TEN::Collision::Sphere

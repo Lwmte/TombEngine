@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Object/burning_torch.h"
 
 #include "Game/animation.h"

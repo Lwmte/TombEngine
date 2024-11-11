@@ -1,12 +1,19 @@
+#include "framework.h"
 #include "Math/Objects/Pose.h"
 
 #include "Math/Geometry.h"
 #include "Math/Objects/EulerAngles.h"
 #include "Math/Objects/Vector3i.h"
 
-namespace TEN::Math
-{
+using namespace TEN::Math;
+
+//namespace TEN::Math
+//{
 	const Pose Pose::Zero = Pose(Vector3i::Zero, EulerAngles::Identity);
+
+	Pose::Pose()
+	{
+	}
 
 	Pose::Pose(const Vector3i& pos)
 	{
@@ -76,4 +83,4 @@ namespace TEN::Math
 	{
 		return !(*this == pose);
 	}
-}
+//}

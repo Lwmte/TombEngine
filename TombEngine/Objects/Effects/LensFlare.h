@@ -1,5 +1,7 @@
 #pragma once
 
+class EulerAngles;
+
 namespace TEN::Entities::Effects
 {
 	struct LensFlare

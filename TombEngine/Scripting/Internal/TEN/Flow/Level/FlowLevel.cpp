@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Scripting/Internal/TEN/Flow/Level/FlowLevel.h"
 
 #include "Scripting/Internal/ScriptAssert.h"
@@ -253,6 +254,7 @@ bool Level::GetFogEnabled() const
 {
 	return Fog.Enabled;
 }
+
 
 RGBAColor8Byte Level::GetFogColor() const
 {

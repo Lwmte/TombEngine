@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/puzzles_keys.h"
 
 #include "Game/animation.h"

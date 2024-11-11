@@ -1,4 +1,5 @@
 #pragma once
+#include "Math/Math.h"
 #include "Objects/Effects/LensFlare.h"
 #include "Scripting/Include/ScriptInterfaceLevel.h"
 

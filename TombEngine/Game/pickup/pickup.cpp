@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/pickup/pickup.h"
 
 #include "pickuputil.h"
@@ -22,6 +23,7 @@
 #include "Game/pickup/pickup_weapon.h"
 #include "Game/room.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Objects/Generic/Object/burning_torch.h"
 #include "Objects/TR4/Object/tr4_clockwork_beetle.h"
 #include "Sound/sound.h"
@@ -31,7 +33,6 @@
 
 using namespace TEN::Collision::Point;
 using namespace TEN::Entities::Generic;
-using namespace TEN::Gui;
 using namespace TEN::Hud;
 using namespace TEN::Input;
 

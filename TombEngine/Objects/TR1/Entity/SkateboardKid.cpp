@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR1/Entity/SkateboardKid.h"
 
 #include "Game/animation.h"
@@ -6,6 +7,9 @@
 #include "Game/misc.h"
 #include "Game/people.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
+
+using namespace TEN::Math;
 
 namespace TEN::Entities::Creatures::TR1
 {

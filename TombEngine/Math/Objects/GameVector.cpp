@@ -1,10 +1,15 @@
+#include "framework.h"
 #include "Math/Objects/GameVector.h"
 
 #include "Math/Objects/Vector3i.h"
 
-namespace TEN::Math
-{
+//namespace TEN::Math
+//{
 	const GameVector GameVector::Zero = GameVector(0, 0, 0, 0);
+
+	GameVector::GameVector()
+	{
+	}
 
 	GameVector::GameVector(const Vector3i& pos)
 	{
@@ -129,4 +134,4 @@ namespace TEN::Math
 	{
 		return GameVector((int)round(x / scalar), (int)round(y / scalar), (int)round(z / scalar), RoomNumber);
 	}
-}
+//}

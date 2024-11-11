@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Object/objects.h"
 
 #include "Game/animation.h"
@@ -269,4 +270,5 @@ void AnimatingControl(short itemNumber)
 		item->status = ITEM_NOT_ACTIVE;
 	}*/
 }
+
 

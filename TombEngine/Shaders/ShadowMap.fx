@@ -10,6 +10,7 @@ cbuffer ItemBuffer : register(b1)
 	float4 AmbientLight;
 };
 
+
 struct PixelShaderInput
 {
 	float4 Position: SV_POSITION;

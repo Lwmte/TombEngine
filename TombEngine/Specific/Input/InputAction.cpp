@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Specific/Input/InputAction.h"
 
 #include "Specific/clock.h"

@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Effects/tr4_locusts.h"
 
 #include "Game/animation.h"
@@ -5,8 +6,11 @@
 #include "Game/effects/tomb4fx.h"
 #include "Game/items.h"
 #include "Game/Lara/lara.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
+
+using namespace TEN::Math;
 
 namespace TEN::Entities::TR4 
 {

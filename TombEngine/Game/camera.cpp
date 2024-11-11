@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/camera.h"
 
 #include "Game/animation.h"
@@ -15,8 +16,8 @@
 #include "Game/savegame.h"
 #include "Game/Setup.h"
 #include "Game/spotcam.h"
+#include "Math/Math.h"
 #include "Objects/Generic/Object/burning_torch.h"
-#include "Renderer/Renderer.h"
 #include "Sound/sound.h"
 #include "Specific/Input/Input.h"
 #include "Specific/level.h"
@@ -26,6 +27,7 @@ using namespace TEN::Collision::Point;
 using namespace TEN::Effects::Environment;
 using namespace TEN::Entities::Generic;
 using namespace TEN::Input;
+using namespace TEN::Math;
 using TEN::Renderer::g_Renderer;
 
 constexpr auto PARTICLE_FADE_THRESHOLD = BLOCK(14);
@@ -213,6 +215,7 @@ inline void RumbleFromBounce()
 {
 	Rumble(std::clamp((float)abs(Camera.bounce) / 70.0f, 0.0f, 0.8f), 0.2f);
 }
+
 
 void InitializeCamera()
 {

@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Entity/tr4_demigod.h"
 
 #include "Game/animation.h"
@@ -13,8 +14,11 @@
 #include "Game/misc.h"
 #include "Game/people.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Renderer/RendererEnums.h"
 #include "Specific/level.h"
+
+using namespace TEN::Math;
 
 namespace TEN::Entities::TR4
 {

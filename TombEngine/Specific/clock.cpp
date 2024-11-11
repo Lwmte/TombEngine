@@ -1,3 +1,6 @@
+#include "framework.h"
+
+#include <chrono>
 #include "Specific/clock.h"
 #include "winmain.h"
 

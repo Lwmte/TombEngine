@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "Scripting/Internal/ScriptAssert.h"
 
 namespace sol

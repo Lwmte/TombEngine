@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Specific/RGBAColor8Byte.h"
 
 typedef DWORD D3DCOLOR;

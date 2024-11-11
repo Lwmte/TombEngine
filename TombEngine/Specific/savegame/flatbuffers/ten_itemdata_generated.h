@@ -6,13 +6,6 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-// Ensure the included flatbuffers.h is the same version as when this file was
-// generated, otherwise it may not be compatible.
-static_assert(FLATBUFFERS_VERSION_MAJOR == 24 &&
-              FLATBUFFERS_VERSION_MINOR == 3 &&
-              FLATBUFFERS_VERSION_REVISION == 25,
-             "Non-compatible flatbuffers version included");
-
 namespace TEN {
 namespace Save {
 
@@ -201,7 +194,7 @@ inline const char * const *EnumNamesItemData() {
 }
 
 inline const char *EnumNameItemData(ItemData e) {
-  if (::flatbuffers::IsOutRange(e, ItemData::NONE, ItemData::Minecart)) return "";
+  if (flatbuffers::IsOutRange(e, ItemData::NONE, ItemData::Minecart)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesItemData()[index];
 }
@@ -294,94 +287,6 @@ template<> struct ItemDataTraits<TEN::Save::Minecart> {
   static const ItemData enum_value = ItemData::Minecart;
 };
 
-template<typename T> struct ItemDataUnionTraits {
-  static const ItemData enum_value = ItemData::NONE;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::IntT> {
-  static const ItemData enum_value = ItemData::Int;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::ShortT> {
-  static const ItemData enum_value = ItemData::Short;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::FloatT> {
-  static const ItemData enum_value = ItemData::Float;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::ShortArrayT> {
-  static const ItemData enum_value = ItemData::ShortArray;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::ItemNumberT> {
-  static const ItemData enum_value = ItemData::ItemNumber;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::CreatureT> {
-  static const ItemData enum_value = ItemData::Creature;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::LaserHeadT> {
-  static const ItemData enum_value = ItemData::LaserHead;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::QuadBikeT> {
-  static const ItemData enum_value = ItemData::QuadBike;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::BigGunT> {
-  static const ItemData enum_value = ItemData::BigGun;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::MotorbikeT> {
-  static const ItemData enum_value = ItemData::Motorbike;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::JeepT> {
-  static const ItemData enum_value = ItemData::Jeep;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::LaraInfoT> {
-  static const ItemData enum_value = ItemData::LaraInfo;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::KayakT> {
-  static const ItemData enum_value = ItemData::Kayak;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::DoorT> {
-  static const ItemData enum_value = ItemData::Door;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::SkidooT> {
-  static const ItemData enum_value = ItemData::Skidoo;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::UPVT> {
-  static const ItemData enum_value = ItemData::UPV;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::MotorboatT> {
-  static const ItemData enum_value = ItemData::Motorboat;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::WraithT> {
-  static const ItemData enum_value = ItemData::Wraith;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::RubberboatT> {
-  static const ItemData enum_value = ItemData::Rubberboat;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::PushableT> {
-  static const ItemData enum_value = ItemData::Pushable;
-};
-
-template<> struct ItemDataUnionTraits<TEN::Save::MinecartT> {
-  static const ItemData enum_value = ItemData::Minecart;
-};
-
 struct ItemDataUnion {
   ItemData type;
   void *value;
@@ -399,18 +304,20 @@ struct ItemDataUnion {
 
   void Reset();
 
+#ifndef FLATBUFFERS_CPP98_STL
   template <typename T>
   void Set(T&& val) {
-    typedef typename std::remove_reference<T>::type RT;
+    using RT = typename std::remove_reference<T>::type;
     Reset();
-    type = ItemDataUnionTraits<RT>::enum_value;
+    type = ItemDataTraits<typename RT::TableType>::enum_value;
     if (type != ItemData::NONE) {
       value = new RT(std::forward<T>(val));
     }
   }
+#endif  // FLATBUFFERS_CPP98_STL
 
-  static void *UnPack(const void *obj, ItemData type, const ::flatbuffers::resolver_function_t *resolver);
-  ::flatbuffers::Offset<void> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr) const;
+  static void *UnPack(const void *obj, ItemData type, const flatbuffers::resolver_function_t *resolver);
+  flatbuffers::Offset<void> Pack(flatbuffers::FlatBufferBuilder &_fbb, const flatbuffers::rehasher_function_t *_rehasher = nullptr) const;
 
   TEN::Save::IntT *AsInt() {
     return type == ItemData::Int ?
@@ -582,8 +489,8 @@ struct ItemDataUnion {
   }
 };
 
-bool VerifyItemData(::flatbuffers::Verifier &verifier, const void *obj, ItemData type);
-bool VerifyItemDataVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<ItemData> *types);
+bool VerifyItemData(flatbuffers::Verifier &verifier, const void *obj, ItemData type);
+bool VerifyItemDataVector(flatbuffers::Verifier &verifier, const flatbuffers::Vector<flatbuffers::Offset<void>> *values, const flatbuffers::Vector<uint8_t> *types);
 
 FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Pose FLATBUFFERS_FINAL_CLASS {
  private:
@@ -605,30 +512,30 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Pose FLATBUFFERS_FINAL_CLASS {
         z_rot_(0) {
   }
   Pose(int32_t _x_pos, int32_t _y_pos, int32_t _z_pos, int32_t _x_rot, int32_t _y_rot, int32_t _z_rot)
-      : x_pos_(::flatbuffers::EndianScalar(_x_pos)),
-        y_pos_(::flatbuffers::EndianScalar(_y_pos)),
-        z_pos_(::flatbuffers::EndianScalar(_z_pos)),
-        x_rot_(::flatbuffers::EndianScalar(_x_rot)),
-        y_rot_(::flatbuffers::EndianScalar(_y_rot)),
-        z_rot_(::flatbuffers::EndianScalar(_z_rot)) {
+      : x_pos_(flatbuffers::EndianScalar(_x_pos)),
+        y_pos_(flatbuffers::EndianScalar(_y_pos)),
+        z_pos_(flatbuffers::EndianScalar(_z_pos)),
+        x_rot_(flatbuffers::EndianScalar(_x_rot)),
+        y_rot_(flatbuffers::EndianScalar(_y_rot)),
+        z_rot_(flatbuffers::EndianScalar(_z_rot)) {
   }
   int32_t x_pos() const {
-    return ::flatbuffers::EndianScalar(x_pos_);
+    return flatbuffers::EndianScalar(x_pos_);
   }
   int32_t y_pos() const {
-    return ::flatbuffers::EndianScalar(y_pos_);
+    return flatbuffers::EndianScalar(y_pos_);
   }
   int32_t z_pos() const {
-    return ::flatbuffers::EndianScalar(z_pos_);
+    return flatbuffers::EndianScalar(z_pos_);
   }
   int32_t x_rot() const {
-    return ::flatbuffers::EndianScalar(x_rot_);
+    return flatbuffers::EndianScalar(x_rot_);
   }
   int32_t y_rot() const {
-    return ::flatbuffers::EndianScalar(y_rot_);
+    return flatbuffers::EndianScalar(y_rot_);
   }
   int32_t z_rot() const {
-    return ::flatbuffers::EndianScalar(z_rot_);
+    return flatbuffers::EndianScalar(z_rot_);
   }
 };
 FLATBUFFERS_STRUCT_END(Pose, 24);
@@ -651,18 +558,18 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(2) EulerAngles FLATBUFFERS_FINAL_CLASS {
         z_(0) {
   }
   EulerAngles(int16_t _x, int16_t _y, int16_t _z)
-      : x_(::flatbuffers::EndianScalar(_x)),
-        y_(::flatbuffers::EndianScalar(_y)),
-        z_(::flatbuffers::EndianScalar(_z)) {
+      : x_(flatbuffers::EndianScalar(_x)),
+        y_(flatbuffers::EndianScalar(_y)),
+        z_(flatbuffers::EndianScalar(_z)) {
   }
   int16_t x() const {
-    return ::flatbuffers::EndianScalar(x_);
+    return flatbuffers::EndianScalar(x_);
   }
   int16_t y() const {
-    return ::flatbuffers::EndianScalar(y_);
+    return flatbuffers::EndianScalar(y_);
   }
   int16_t z() const {
-    return ::flatbuffers::EndianScalar(z_);
+    return flatbuffers::EndianScalar(z_);
   }
 };
 FLATBUFFERS_STRUCT_END(EulerAngles, 6);
@@ -683,14 +590,14 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector2 FLATBUFFERS_FINAL_CLASS {
         y_(0) {
   }
   Vector2(float _x, float _y)
-      : x_(::flatbuffers::EndianScalar(_x)),
-        y_(::flatbuffers::EndianScalar(_y)) {
+      : x_(flatbuffers::EndianScalar(_x)),
+        y_(flatbuffers::EndianScalar(_y)) {
   }
   float x() const {
-    return ::flatbuffers::EndianScalar(x_);
+    return flatbuffers::EndianScalar(x_);
   }
   float y() const {
-    return ::flatbuffers::EndianScalar(y_);
+    return flatbuffers::EndianScalar(y_);
   }
 };
 FLATBUFFERS_STRUCT_END(Vector2, 8);
@@ -713,18 +620,18 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector3 FLATBUFFERS_FINAL_CLASS {
         z_(0) {
   }
   Vector3(float _x, float _y, float _z)
-      : x_(::flatbuffers::EndianScalar(_x)),
-        y_(::flatbuffers::EndianScalar(_y)),
-        z_(::flatbuffers::EndianScalar(_z)) {
+      : x_(flatbuffers::EndianScalar(_x)),
+        y_(flatbuffers::EndianScalar(_y)),
+        z_(flatbuffers::EndianScalar(_z)) {
   }
   float x() const {
-    return ::flatbuffers::EndianScalar(x_);
+    return flatbuffers::EndianScalar(x_);
   }
   float y() const {
-    return ::flatbuffers::EndianScalar(y_);
+    return flatbuffers::EndianScalar(y_);
   }
   float z() const {
-    return ::flatbuffers::EndianScalar(z_);
+    return flatbuffers::EndianScalar(z_);
   }
 };
 FLATBUFFERS_STRUCT_END(Vector3, 12);
@@ -749,22 +656,22 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector4 FLATBUFFERS_FINAL_CLASS {
         w_(0) {
   }
   Vector4(float _x, float _y, float _z, float _w)
-      : x_(::flatbuffers::EndianScalar(_x)),
-        y_(::flatbuffers::EndianScalar(_y)),
-        z_(::flatbuffers::EndianScalar(_z)),
-        w_(::flatbuffers::EndianScalar(_w)) {
+      : x_(flatbuffers::EndianScalar(_x)),
+        y_(flatbuffers::EndianScalar(_y)),
+        z_(flatbuffers::EndianScalar(_z)),
+        w_(flatbuffers::EndianScalar(_w)) {
   }
   float x() const {
-    return ::flatbuffers::EndianScalar(x_);
+    return flatbuffers::EndianScalar(x_);
   }
   float y() const {
-    return ::flatbuffers::EndianScalar(y_);
+    return flatbuffers::EndianScalar(y_);
   }
   float z() const {
-    return ::flatbuffers::EndianScalar(z_);
+    return flatbuffers::EndianScalar(z_);
   }
   float w() const {
-    return ::flatbuffers::EndianScalar(w_);
+    return flatbuffers::EndianScalar(w_);
   }
 };
 FLATBUFFERS_STRUCT_END(Vector4, 16);
@@ -789,22 +696,22 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) GameVector FLATBUFFERS_FINAL_CLASS {
         room_number_(0) {
   }
   GameVector(int32_t _x, int32_t _y, int32_t _z, int32_t _room_number)
-      : x_(::flatbuffers::EndianScalar(_x)),
-        y_(::flatbuffers::EndianScalar(_y)),
-        z_(::flatbuffers::EndianScalar(_z)),
-        room_number_(::flatbuffers::EndianScalar(_room_number)) {
+      : x_(flatbuffers::EndianScalar(_x)),
+        y_(flatbuffers::EndianScalar(_y)),
+        z_(flatbuffers::EndianScalar(_z)),
+        room_number_(flatbuffers::EndianScalar(_room_number)) {
   }
   int32_t x() const {
-    return ::flatbuffers::EndianScalar(x_);
+    return flatbuffers::EndianScalar(x_);
   }
   int32_t y() const {
-    return ::flatbuffers::EndianScalar(y_);
+    return flatbuffers::EndianScalar(y_);
   }
   int32_t z() const {
-    return ::flatbuffers::EndianScalar(z_);
+    return flatbuffers::EndianScalar(z_);
   }
   int32_t room_number() const {
-    return ::flatbuffers::EndianScalar(room_number_);
+    return flatbuffers::EndianScalar(room_number_);
   }
 };
 FLATBUFFERS_STRUCT_END(GameVector, 16);
@@ -813,7 +720,7 @@ struct GameVector::Traits {
   using type = GameVector;
 };
 
-struct CreatureTargetT : public ::flatbuffers::NativeTable {
+struct CreatureTargetT : public flatbuffers::NativeTable {
   typedef CreatureTarget TableType;
   int32_t object_number = 0;
   int32_t room_number = 0;
@@ -821,13 +728,9 @@ struct CreatureTargetT : public ::flatbuffers::NativeTable {
   int32_t flags = 0;
   int32_t trigger_flags = 0;
   std::unique_ptr<TEN::Save::Pose> position{};
-  CreatureTargetT() = default;
-  CreatureTargetT(const CreatureTargetT &o);
-  CreatureTargetT(CreatureTargetT&&) FLATBUFFERS_NOEXCEPT = default;
-  CreatureTargetT &operator=(CreatureTargetT o) FLATBUFFERS_NOEXCEPT;
 };
 
-struct CreatureTarget FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct CreatureTarget FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef CreatureTargetT NativeTableType;
   typedef CreatureTargetBuilder Builder;
   struct Traits;
@@ -857,25 +760,25 @@ struct CreatureTarget FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const TEN::Save::Pose *position() const {
     return GetStruct<const TEN::Save::Pose *>(VT_POSITION);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_OBJECT_NUMBER, 4) &&
-           VerifyField<int32_t>(verifier, VT_ROOM_NUMBER, 4) &&
-           VerifyField<int32_t>(verifier, VT_BOX_NUMBER, 4) &&
-           VerifyField<int32_t>(verifier, VT_FLAGS, 4) &&
-           VerifyField<int32_t>(verifier, VT_TRIGGER_FLAGS, 4) &&
-           VerifyField<TEN::Save::Pose>(verifier, VT_POSITION, 4) &&
+           VerifyField<int32_t>(verifier, VT_OBJECT_NUMBER) &&
+           VerifyField<int32_t>(verifier, VT_ROOM_NUMBER) &&
+           VerifyField<int32_t>(verifier, VT_BOX_NUMBER) &&
+           VerifyField<int32_t>(verifier, VT_FLAGS) &&
+           VerifyField<int32_t>(verifier, VT_TRIGGER_FLAGS) &&
+           VerifyField<TEN::Save::Pose>(verifier, VT_POSITION) &&
            verifier.EndTable();
   }
-  CreatureTargetT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(CreatureTargetT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<CreatureTarget> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const CreatureTargetT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  CreatureTargetT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(CreatureTargetT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<CreatureTarget> Pack(flatbuffers::FlatBufferBuilder &_fbb, const CreatureTargetT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct CreatureTargetBuilder {
   typedef CreatureTarget Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_object_number(int32_t object_number) {
     fbb_.AddElement<int32_t>(CreatureTarget::VT_OBJECT_NUMBER, object_number, 0);
   }
@@ -894,25 +797,25 @@ struct CreatureTargetBuilder {
   void add_position(const TEN::Save::Pose *position) {
     fbb_.AddStruct(CreatureTarget::VT_POSITION, position);
   }
-  explicit CreatureTargetBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit CreatureTargetBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<CreatureTarget> Finish() {
+  flatbuffers::Offset<CreatureTarget> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<CreatureTarget>(end);
+    auto o = flatbuffers::Offset<CreatureTarget>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<CreatureTarget> CreateCreatureTarget(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<CreatureTarget> CreateCreatureTarget(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t object_number = 0,
     int32_t room_number = 0,
     int32_t box_number = 0,
     int32_t flags = 0,
     int32_t trigger_flags = 0,
-    const TEN::Save::Pose *position = nullptr) {
+    const TEN::Save::Pose *position = 0) {
   CreatureTargetBuilder builder_(_fbb);
   builder_.add_position(position);
   builder_.add_trigger_flags(trigger_flags);
@@ -928,9 +831,9 @@ struct CreatureTarget::Traits {
   static auto constexpr Create = CreateCreatureTarget;
 };
 
-::flatbuffers::Offset<CreatureTarget> CreateCreatureTarget(::flatbuffers::FlatBufferBuilder &_fbb, const CreatureTargetT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<CreatureTarget> CreateCreatureTarget(flatbuffers::FlatBufferBuilder &_fbb, const CreatureTargetT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct CreatureT : public ::flatbuffers::NativeTable {
+struct CreatureT : public flatbuffers::NativeTable {
   typedef Creature TableType;
   int32_t maximum_turn = 0;
   std::vector<int32_t> joint_rotation{};
@@ -959,7 +862,7 @@ struct CreatureT : public ::flatbuffers::NativeTable {
   bool is_monkeying = false;
 };
 
-struct Creature FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Creature FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef CreatureT NativeTableType;
   typedef CreatureBuilder Builder;
   struct Traits;
@@ -993,8 +896,8 @@ struct Creature FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t maximum_turn() const {
     return GetField<int32_t>(VT_MAXIMUM_TURN, 0);
   }
-  const ::flatbuffers::Vector<int32_t> *joint_rotation() const {
-    return GetPointer<const ::flatbuffers::Vector<int32_t> *>(VT_JOINT_ROTATION);
+  const flatbuffers::Vector<int32_t> *joint_rotation() const {
+    return GetPointer<const flatbuffers::Vector<int32_t> *>(VT_JOINT_ROTATION);
   }
   bool head_left() const {
     return GetField<uint8_t>(VT_HEAD_LEFT, 0) != 0;
@@ -1065,49 +968,49 @@ struct Creature FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool is_monkeying() const {
     return GetField<uint8_t>(VT_IS_MONKEYING, 0) != 0;
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_MAXIMUM_TURN, 4) &&
+           VerifyField<int32_t>(verifier, VT_MAXIMUM_TURN) &&
            VerifyOffset(verifier, VT_JOINT_ROTATION) &&
            verifier.VerifyVector(joint_rotation()) &&
-           VerifyField<uint8_t>(verifier, VT_HEAD_LEFT, 1) &&
-           VerifyField<uint8_t>(verifier, VT_HEAD_RIGHT, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PATROL, 1) &&
-           VerifyField<uint8_t>(verifier, VT_ALERTED, 1) &&
-           VerifyField<uint8_t>(verifier, VT_REACHED_GOAL, 1) &&
-           VerifyField<uint8_t>(verifier, VT_JUMP_AHEAD, 1) &&
-           VerifyField<uint8_t>(verifier, VT_MONKEY_SWING_AHEAD, 1) &&
-           VerifyField<uint8_t>(verifier, VT_FRIENDLY, 1) &&
-           VerifyField<uint8_t>(verifier, VT_POISONED, 1) &&
-           VerifyField<uint8_t>(verifier, VT_HURT_BY_LARA, 1) &&
-           VerifyField<int32_t>(verifier, VT_TOSSPAD, 4) &&
-           VerifyField<int32_t>(verifier, VT_LOCATION_AI, 4) &&
-           VerifyField<int32_t>(verifier, VT_WEAPON_DELAY1, 4) &&
-           VerifyField<int32_t>(verifier, VT_WEAPON_DELAY2, 4) &&
-           VerifyField<int32_t>(verifier, VT_MOOD, 4) &&
-           VerifyField<int32_t>(verifier, VT_ENEMY, 4) &&
-           VerifyField<int32_t>(verifier, VT_AI_TARGET_NUMBER, 4) &&
-           VerifyField<int32_t>(verifier, VT_FLAGS, 4) &&
-           VerifyField<uint8_t>(verifier, VT_CAN_JUMP, 1) &&
-           VerifyField<uint8_t>(verifier, VT_CAN_MONKEY, 1) &&
-           VerifyField<uint8_t>(verifier, VT_IS_AMPHIBIOUS, 1) &&
-           VerifyField<uint8_t>(verifier, VT_IS_JUMPING, 1) &&
-           VerifyField<uint8_t>(verifier, VT_IS_MONKEYING, 1) &&
+           VerifyField<uint8_t>(verifier, VT_HEAD_LEFT) &&
+           VerifyField<uint8_t>(verifier, VT_HEAD_RIGHT) &&
+           VerifyField<uint8_t>(verifier, VT_PATROL) &&
+           VerifyField<uint8_t>(verifier, VT_ALERTED) &&
+           VerifyField<uint8_t>(verifier, VT_REACHED_GOAL) &&
+           VerifyField<uint8_t>(verifier, VT_JUMP_AHEAD) &&
+           VerifyField<uint8_t>(verifier, VT_MONKEY_SWING_AHEAD) &&
+           VerifyField<uint8_t>(verifier, VT_FRIENDLY) &&
+           VerifyField<uint8_t>(verifier, VT_POISONED) &&
+           VerifyField<uint8_t>(verifier, VT_HURT_BY_LARA) &&
+           VerifyField<int32_t>(verifier, VT_TOSSPAD) &&
+           VerifyField<int32_t>(verifier, VT_LOCATION_AI) &&
+           VerifyField<int32_t>(verifier, VT_WEAPON_DELAY1) &&
+           VerifyField<int32_t>(verifier, VT_WEAPON_DELAY2) &&
+           VerifyField<int32_t>(verifier, VT_MOOD) &&
+           VerifyField<int32_t>(verifier, VT_ENEMY) &&
+           VerifyField<int32_t>(verifier, VT_AI_TARGET_NUMBER) &&
+           VerifyField<int32_t>(verifier, VT_FLAGS) &&
+           VerifyField<uint8_t>(verifier, VT_CAN_JUMP) &&
+           VerifyField<uint8_t>(verifier, VT_CAN_MONKEY) &&
+           VerifyField<uint8_t>(verifier, VT_IS_AMPHIBIOUS) &&
+           VerifyField<uint8_t>(verifier, VT_IS_JUMPING) &&
+           VerifyField<uint8_t>(verifier, VT_IS_MONKEYING) &&
            verifier.EndTable();
   }
-  CreatureT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(CreatureT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Creature> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const CreatureT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  CreatureT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(CreatureT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Creature> Pack(flatbuffers::FlatBufferBuilder &_fbb, const CreatureT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct CreatureBuilder {
   typedef Creature Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_maximum_turn(int32_t maximum_turn) {
     fbb_.AddElement<int32_t>(Creature::VT_MAXIMUM_TURN, maximum_turn, 0);
   }
-  void add_joint_rotation(::flatbuffers::Offset<::flatbuffers::Vector<int32_t>> joint_rotation) {
+  void add_joint_rotation(flatbuffers::Offset<flatbuffers::Vector<int32_t>> joint_rotation) {
     fbb_.AddOffset(Creature::VT_JOINT_ROTATION, joint_rotation);
   }
   void add_head_left(bool head_left) {
@@ -1179,21 +1082,21 @@ struct CreatureBuilder {
   void add_is_monkeying(bool is_monkeying) {
     fbb_.AddElement<uint8_t>(Creature::VT_IS_MONKEYING, static_cast<uint8_t>(is_monkeying), 0);
   }
-  explicit CreatureBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit CreatureBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Creature> Finish() {
+  flatbuffers::Offset<Creature> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Creature>(end);
+    auto o = flatbuffers::Offset<Creature>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Creature> CreateCreature(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<Creature> CreateCreature(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t maximum_turn = 0,
-    ::flatbuffers::Offset<::flatbuffers::Vector<int32_t>> joint_rotation = 0,
+    flatbuffers::Offset<flatbuffers::Vector<int32_t>> joint_rotation = 0,
     bool head_left = false,
     bool head_right = false,
     bool patrol = false,
@@ -1251,8 +1154,8 @@ struct Creature::Traits {
   static auto constexpr Create = CreateCreature;
 };
 
-inline ::flatbuffers::Offset<Creature> CreateCreatureDirect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<Creature> CreateCreatureDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t maximum_turn = 0,
     const std::vector<int32_t> *joint_rotation = nullptr,
     bool head_left = false,
@@ -1308,42 +1211,42 @@ inline ::flatbuffers::Offset<Creature> CreateCreatureDirect(
       is_monkeying);
 }
 
-::flatbuffers::Offset<Creature> CreateCreature(::flatbuffers::FlatBufferBuilder &_fbb, const CreatureT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Creature> CreateCreature(flatbuffers::FlatBufferBuilder &_fbb, const CreatureT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct LaserHeadT : public ::flatbuffers::NativeTable {
+struct LaserHeadT : public flatbuffers::NativeTable {
   typedef LaserHead TableType;
 };
 
-struct LaserHead FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct LaserHead FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef LaserHeadT NativeTableType;
   typedef LaserHeadBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  LaserHeadT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(LaserHeadT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<LaserHead> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const LaserHeadT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  LaserHeadT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(LaserHeadT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<LaserHead> Pack(flatbuffers::FlatBufferBuilder &_fbb, const LaserHeadT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct LaserHeadBuilder {
   typedef LaserHead Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit LaserHeadBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit LaserHeadBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<LaserHead> Finish() {
+  flatbuffers::Offset<LaserHead> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<LaserHead>(end);
+    auto o = flatbuffers::Offset<LaserHead>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<LaserHead> CreateLaserHead(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<LaserHead> CreateLaserHead(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   LaserHeadBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -1353,9 +1256,9 @@ struct LaserHead::Traits {
   static auto constexpr Create = CreateLaserHead;
 };
 
-::flatbuffers::Offset<LaserHead> CreateLaserHead(::flatbuffers::FlatBufferBuilder &_fbb, const LaserHeadT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<LaserHead> CreateLaserHead(flatbuffers::FlatBufferBuilder &_fbb, const LaserHeadT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct QuadBikeT : public ::flatbuffers::NativeTable {
+struct QuadBikeT : public flatbuffers::NativeTable {
   typedef QuadBike TableType;
   int32_t turn_rate = 0;
   int32_t front_rot = 0;
@@ -1375,7 +1278,7 @@ struct QuadBikeT : public ::flatbuffers::NativeTable {
   int32_t flags = 0;
 };
 
-struct QuadBike FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct QuadBike FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef QuadBikeT NativeTableType;
   typedef QuadBikeBuilder Builder;
   struct Traits;
@@ -1445,35 +1348,35 @@ struct QuadBike FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t flags() const {
     return GetField<int32_t>(VT_FLAGS, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_TURN_RATE, 4) &&
-           VerifyField<int32_t>(verifier, VT_FRONT_ROT, 4) &&
-           VerifyField<int32_t>(verifier, VT_REAR_ROT, 4) &&
-           VerifyField<int32_t>(verifier, VT_MOMENTUM_ANGLE, 4) &&
-           VerifyField<int32_t>(verifier, VT_EXTRA_ROTATION, 4) &&
-           VerifyField<int32_t>(verifier, VT_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_LEFT_VERTICAL_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_RIGHT_VERTICAL_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_REVS, 4) &&
-           VerifyField<int32_t>(verifier, VT_ENGINE_REVS, 4) &&
-           VerifyField<int32_t>(verifier, VT_PITCH, 4) &&
-           VerifyField<int32_t>(verifier, VT_SMOKE_START, 4) &&
-           VerifyField<uint8_t>(verifier, VT_CAN_START_DRIFT, 1) &&
-           VerifyField<uint8_t>(verifier, VT_DRIFT_STARTING, 1) &&
-           VerifyField<uint8_t>(verifier, VT_NO_DISMOUNT, 1) &&
-           VerifyField<int32_t>(verifier, VT_FLAGS, 4) &&
+           VerifyField<int32_t>(verifier, VT_TURN_RATE) &&
+           VerifyField<int32_t>(verifier, VT_FRONT_ROT) &&
+           VerifyField<int32_t>(verifier, VT_REAR_ROT) &&
+           VerifyField<int32_t>(verifier, VT_MOMENTUM_ANGLE) &&
+           VerifyField<int32_t>(verifier, VT_EXTRA_ROTATION) &&
+           VerifyField<int32_t>(verifier, VT_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_LEFT_VERTICAL_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_RIGHT_VERTICAL_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_REVS) &&
+           VerifyField<int32_t>(verifier, VT_ENGINE_REVS) &&
+           VerifyField<int32_t>(verifier, VT_PITCH) &&
+           VerifyField<int32_t>(verifier, VT_SMOKE_START) &&
+           VerifyField<uint8_t>(verifier, VT_CAN_START_DRIFT) &&
+           VerifyField<uint8_t>(verifier, VT_DRIFT_STARTING) &&
+           VerifyField<uint8_t>(verifier, VT_NO_DISMOUNT) &&
+           VerifyField<int32_t>(verifier, VT_FLAGS) &&
            verifier.EndTable();
   }
-  QuadBikeT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(QuadBikeT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<QuadBike> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const QuadBikeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  QuadBikeT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(QuadBikeT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<QuadBike> Pack(flatbuffers::FlatBufferBuilder &_fbb, const QuadBikeT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct QuadBikeBuilder {
   typedef QuadBike Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_turn_rate(int32_t turn_rate) {
     fbb_.AddElement<int32_t>(QuadBike::VT_TURN_RATE, turn_rate, 0);
   }
@@ -1522,19 +1425,19 @@ struct QuadBikeBuilder {
   void add_flags(int32_t flags) {
     fbb_.AddElement<int32_t>(QuadBike::VT_FLAGS, flags, 0);
   }
-  explicit QuadBikeBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit QuadBikeBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<QuadBike> Finish() {
+  flatbuffers::Offset<QuadBike> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<QuadBike>(end);
+    auto o = flatbuffers::Offset<QuadBike>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<QuadBike> CreateQuadBike(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<QuadBike> CreateQuadBike(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t turn_rate = 0,
     int32_t front_rot = 0,
     int32_t rear_rot = 0,
@@ -1576,42 +1479,42 @@ struct QuadBike::Traits {
   static auto constexpr Create = CreateQuadBike;
 };
 
-::flatbuffers::Offset<QuadBike> CreateQuadBike(::flatbuffers::FlatBufferBuilder &_fbb, const QuadBikeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<QuadBike> CreateQuadBike(flatbuffers::FlatBufferBuilder &_fbb, const QuadBikeT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct BigGunT : public ::flatbuffers::NativeTable {
+struct BigGunT : public flatbuffers::NativeTable {
   typedef BigGun TableType;
 };
 
-struct BigGun FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct BigGun FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef BigGunT NativeTableType;
   typedef BigGunBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  BigGunT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(BigGunT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<BigGun> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const BigGunT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  BigGunT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(BigGunT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<BigGun> Pack(flatbuffers::FlatBufferBuilder &_fbb, const BigGunT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct BigGunBuilder {
   typedef BigGun Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit BigGunBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit BigGunBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<BigGun> Finish() {
+  flatbuffers::Offset<BigGun> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<BigGun>(end);
+    auto o = flatbuffers::Offset<BigGun>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<BigGun> CreateBigGun(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<BigGun> CreateBigGun(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   BigGunBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -1621,42 +1524,42 @@ struct BigGun::Traits {
   static auto constexpr Create = CreateBigGun;
 };
 
-::flatbuffers::Offset<BigGun> CreateBigGun(::flatbuffers::FlatBufferBuilder &_fbb, const BigGunT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<BigGun> CreateBigGun(flatbuffers::FlatBufferBuilder &_fbb, const BigGunT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct MotorbikeT : public ::flatbuffers::NativeTable {
+struct MotorbikeT : public flatbuffers::NativeTable {
   typedef Motorbike TableType;
 };
 
-struct Motorbike FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Motorbike FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef MotorbikeT NativeTableType;
   typedef MotorbikeBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  MotorbikeT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(MotorbikeT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Motorbike> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MotorbikeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  MotorbikeT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(MotorbikeT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Motorbike> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MotorbikeT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct MotorbikeBuilder {
   typedef Motorbike Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit MotorbikeBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit MotorbikeBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Motorbike> Finish() {
+  flatbuffers::Offset<Motorbike> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Motorbike>(end);
+    auto o = flatbuffers::Offset<Motorbike>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Motorbike> CreateMotorbike(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<Motorbike> CreateMotorbike(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   MotorbikeBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -1666,42 +1569,42 @@ struct Motorbike::Traits {
   static auto constexpr Create = CreateMotorbike;
 };
 
-::flatbuffers::Offset<Motorbike> CreateMotorbike(::flatbuffers::FlatBufferBuilder &_fbb, const MotorbikeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Motorbike> CreateMotorbike(flatbuffers::FlatBufferBuilder &_fbb, const MotorbikeT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct JeepT : public ::flatbuffers::NativeTable {
+struct JeepT : public flatbuffers::NativeTable {
   typedef Jeep TableType;
 };
 
-struct Jeep FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Jeep FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef JeepT NativeTableType;
   typedef JeepBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  JeepT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(JeepT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Jeep> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const JeepT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  JeepT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(JeepT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Jeep> Pack(flatbuffers::FlatBufferBuilder &_fbb, const JeepT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct JeepBuilder {
   typedef Jeep Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit JeepBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit JeepBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Jeep> Finish() {
+  flatbuffers::Offset<Jeep> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Jeep>(end);
+    auto o = flatbuffers::Offset<Jeep>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Jeep> CreateJeep(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<Jeep> CreateJeep(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   JeepBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -1711,9 +1614,9 @@ struct Jeep::Traits {
   static auto constexpr Create = CreateJeep;
 };
 
-::flatbuffers::Offset<Jeep> CreateJeep(::flatbuffers::FlatBufferBuilder &_fbb, const JeepT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Jeep> CreateJeep(flatbuffers::FlatBufferBuilder &_fbb, const JeepT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct KayakT : public ::flatbuffers::NativeTable {
+struct KayakT : public flatbuffers::NativeTable {
   typedef Kayak TableType;
   int32_t turn_rate = 0;
   int32_t velocity = 0;
@@ -1727,13 +1630,9 @@ struct KayakT : public ::flatbuffers::NativeTable {
   bool forward = false;
   bool true_water = false;
   int32_t flags = 0;
-  KayakT() = default;
-  KayakT(const KayakT &o);
-  KayakT(KayakT&&) FLATBUFFERS_NOEXCEPT = default;
-  KayakT &operator=(KayakT o) FLATBUFFERS_NOEXCEPT;
 };
 
-struct Kayak FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Kayak FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef KayakT NativeTableType;
   typedef KayakBuilder Builder;
   struct Traits;
@@ -1787,31 +1686,31 @@ struct Kayak FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t flags() const {
     return GetField<int32_t>(VT_FLAGS, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_TURN_RATE, 4) &&
-           VerifyField<int32_t>(verifier, VT_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_FRONT_VERTICAL_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_LEFT_VERTICAL_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_RIGHT_VERTICAL_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_LEFT_RIGHT_COUNT, 4) &&
-           VerifyField<int32_t>(verifier, VT_WATER_HEIGHT, 4) &&
-           VerifyField<TEN::Save::Pose>(verifier, VT_OLD_POS, 4) &&
-           VerifyField<uint8_t>(verifier, VT_TURN, 1) &&
-           VerifyField<uint8_t>(verifier, VT_FORWARD, 1) &&
-           VerifyField<uint8_t>(verifier, VT_TRUE_WATER, 1) &&
-           VerifyField<int32_t>(verifier, VT_FLAGS, 4) &&
+           VerifyField<int32_t>(verifier, VT_TURN_RATE) &&
+           VerifyField<int32_t>(verifier, VT_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_FRONT_VERTICAL_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_LEFT_VERTICAL_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_RIGHT_VERTICAL_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_LEFT_RIGHT_COUNT) &&
+           VerifyField<int32_t>(verifier, VT_WATER_HEIGHT) &&
+           VerifyField<TEN::Save::Pose>(verifier, VT_OLD_POS) &&
+           VerifyField<uint8_t>(verifier, VT_TURN) &&
+           VerifyField<uint8_t>(verifier, VT_FORWARD) &&
+           VerifyField<uint8_t>(verifier, VT_TRUE_WATER) &&
+           VerifyField<int32_t>(verifier, VT_FLAGS) &&
            verifier.EndTable();
   }
-  KayakT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(KayakT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Kayak> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const KayakT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  KayakT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(KayakT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Kayak> Pack(flatbuffers::FlatBufferBuilder &_fbb, const KayakT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct KayakBuilder {
   typedef Kayak Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_turn_rate(int32_t turn_rate) {
     fbb_.AddElement<int32_t>(Kayak::VT_TURN_RATE, turn_rate, 0);
   }
@@ -1848,19 +1747,19 @@ struct KayakBuilder {
   void add_flags(int32_t flags) {
     fbb_.AddElement<int32_t>(Kayak::VT_FLAGS, flags, 0);
   }
-  explicit KayakBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit KayakBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Kayak> Finish() {
+  flatbuffers::Offset<Kayak> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Kayak>(end);
+    auto o = flatbuffers::Offset<Kayak>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Kayak> CreateKayak(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<Kayak> CreateKayak(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t turn_rate = 0,
     int32_t velocity = 0,
     int32_t front_vertical_velocity = 0,
@@ -1868,7 +1767,7 @@ inline ::flatbuffers::Offset<Kayak> CreateKayak(
     int32_t right_vertical_velocity = 0,
     int32_t left_right_count = 0,
     int32_t water_height = 0,
-    const TEN::Save::Pose *old_pos = nullptr,
+    const TEN::Save::Pose *old_pos = 0,
     bool turn = false,
     bool forward = false,
     bool true_water = false,
@@ -1894,42 +1793,42 @@ struct Kayak::Traits {
   static auto constexpr Create = CreateKayak;
 };
 
-::flatbuffers::Offset<Kayak> CreateKayak(::flatbuffers::FlatBufferBuilder &_fbb, const KayakT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Kayak> CreateKayak(flatbuffers::FlatBufferBuilder &_fbb, const KayakT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct DoorT : public ::flatbuffers::NativeTable {
+struct DoorT : public flatbuffers::NativeTable {
   typedef Door TableType;
 };
 
-struct Door FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Door FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef DoorT NativeTableType;
   typedef DoorBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  DoorT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(DoorT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Door> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const DoorT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  DoorT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(DoorT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Door> Pack(flatbuffers::FlatBufferBuilder &_fbb, const DoorT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct DoorBuilder {
   typedef Door Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit DoorBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit DoorBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Door> Finish() {
+  flatbuffers::Offset<Door> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Door>(end);
+    auto o = flatbuffers::Offset<Door>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Door> CreateDoor(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<Door> CreateDoor(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   DoorBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -1939,42 +1838,42 @@ struct Door::Traits {
   static auto constexpr Create = CreateDoor;
 };
 
-::flatbuffers::Offset<Door> CreateDoor(::flatbuffers::FlatBufferBuilder &_fbb, const DoorT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Door> CreateDoor(flatbuffers::FlatBufferBuilder &_fbb, const DoorT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct SkidooT : public ::flatbuffers::NativeTable {
+struct SkidooT : public flatbuffers::NativeTable {
   typedef Skidoo TableType;
 };
 
-struct Skidoo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Skidoo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef SkidooT NativeTableType;
   typedef SkidooBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  SkidooT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(SkidooT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Skidoo> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const SkidooT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  SkidooT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(SkidooT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Skidoo> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SkidooT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct SkidooBuilder {
   typedef Skidoo Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit SkidooBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit SkidooBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Skidoo> Finish() {
+  flatbuffers::Offset<Skidoo> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Skidoo>(end);
+    auto o = flatbuffers::Offset<Skidoo>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Skidoo> CreateSkidoo(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<Skidoo> CreateSkidoo(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   SkidooBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -1984,9 +1883,9 @@ struct Skidoo::Traits {
   static auto constexpr Create = CreateSkidoo;
 };
 
-::flatbuffers::Offset<Skidoo> CreateSkidoo(::flatbuffers::FlatBufferBuilder &_fbb, const SkidooT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Skidoo> CreateSkidoo(flatbuffers::FlatBufferBuilder &_fbb, const SkidooT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct UPVT : public ::flatbuffers::NativeTable {
+struct UPVT : public flatbuffers::NativeTable {
   typedef UPV TableType;
   int32_t velocity = 0;
   int32_t rot = 0;
@@ -1997,7 +1896,7 @@ struct UPVT : public ::flatbuffers::NativeTable {
   int32_t flags = 0;
 };
 
-struct UPV FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct UPV FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef UPVT NativeTableType;
   typedef UPVBuilder Builder;
   struct Traits;
@@ -2031,26 +1930,26 @@ struct UPV FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t flags() const {
     return GetField<int32_t>(VT_FLAGS, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_ROT, 4) &&
-           VerifyField<int32_t>(verifier, VT_X_ROT, 4) &&
-           VerifyField<int32_t>(verifier, VT_FAN_ROT, 4) &&
-           VerifyField<int32_t>(verifier, VT_HARPOON_TIMER, 4) &&
-           VerifyField<uint8_t>(verifier, VT_HARPOON_LEFT, 1) &&
-           VerifyField<int32_t>(verifier, VT_FLAGS, 4) &&
+           VerifyField<int32_t>(verifier, VT_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_ROT) &&
+           VerifyField<int32_t>(verifier, VT_X_ROT) &&
+           VerifyField<int32_t>(verifier, VT_FAN_ROT) &&
+           VerifyField<int32_t>(verifier, VT_HARPOON_TIMER) &&
+           VerifyField<uint8_t>(verifier, VT_HARPOON_LEFT) &&
+           VerifyField<int32_t>(verifier, VT_FLAGS) &&
            verifier.EndTable();
   }
-  UPVT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(UPVT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<UPV> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const UPVT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  UPVT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(UPVT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<UPV> Pack(flatbuffers::FlatBufferBuilder &_fbb, const UPVT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct UPVBuilder {
   typedef UPV Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_velocity(int32_t velocity) {
     fbb_.AddElement<int32_t>(UPV::VT_VELOCITY, velocity, 0);
   }
@@ -2072,19 +1971,19 @@ struct UPVBuilder {
   void add_flags(int32_t flags) {
     fbb_.AddElement<int32_t>(UPV::VT_FLAGS, flags, 0);
   }
-  explicit UPVBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit UPVBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<UPV> Finish() {
+  flatbuffers::Offset<UPV> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<UPV>(end);
+    auto o = flatbuffers::Offset<UPV>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<UPV> CreateUPV(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<UPV> CreateUPV(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t velocity = 0,
     int32_t rot = 0,
     int32_t x_rot = 0,
@@ -2108,42 +2007,42 @@ struct UPV::Traits {
   static auto constexpr Create = CreateUPV;
 };
 
-::flatbuffers::Offset<UPV> CreateUPV(::flatbuffers::FlatBufferBuilder &_fbb, const UPVT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<UPV> CreateUPV(flatbuffers::FlatBufferBuilder &_fbb, const UPVT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct MotorboatT : public ::flatbuffers::NativeTable {
+struct MotorboatT : public flatbuffers::NativeTable {
   typedef Motorboat TableType;
 };
 
-struct Motorboat FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Motorboat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef MotorboatT NativeTableType;
   typedef MotorboatBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  MotorboatT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(MotorboatT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Motorboat> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MotorboatT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  MotorboatT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(MotorboatT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Motorboat> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MotorboatT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct MotorboatBuilder {
   typedef Motorboat Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit MotorboatBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit MotorboatBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Motorboat> Finish() {
+  flatbuffers::Offset<Motorboat> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Motorboat>(end);
+    auto o = flatbuffers::Offset<Motorboat>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Motorboat> CreateMotorboat(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<Motorboat> CreateMotorboat(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   MotorboatBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -2153,42 +2052,42 @@ struct Motorboat::Traits {
   static auto constexpr Create = CreateMotorboat;
 };
 
-::flatbuffers::Offset<Motorboat> CreateMotorboat(::flatbuffers::FlatBufferBuilder &_fbb, const MotorboatT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Motorboat> CreateMotorboat(flatbuffers::FlatBufferBuilder &_fbb, const MotorboatT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct WraithT : public ::flatbuffers::NativeTable {
+struct WraithT : public flatbuffers::NativeTable {
   typedef Wraith TableType;
 };
 
-struct Wraith FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Wraith FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef WraithT NativeTableType;
   typedef WraithBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  WraithT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(WraithT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Wraith> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const WraithT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  WraithT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(WraithT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Wraith> Pack(flatbuffers::FlatBufferBuilder &_fbb, const WraithT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct WraithBuilder {
   typedef Wraith Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit WraithBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit WraithBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Wraith> Finish() {
+  flatbuffers::Offset<Wraith> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Wraith>(end);
+    auto o = flatbuffers::Offset<Wraith>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Wraith> CreateWraith(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<Wraith> CreateWraith(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   WraithBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -2198,42 +2097,42 @@ struct Wraith::Traits {
   static auto constexpr Create = CreateWraith;
 };
 
-::flatbuffers::Offset<Wraith> CreateWraith(::flatbuffers::FlatBufferBuilder &_fbb, const WraithT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Wraith> CreateWraith(flatbuffers::FlatBufferBuilder &_fbb, const WraithT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct RubberboatT : public ::flatbuffers::NativeTable {
+struct RubberboatT : public flatbuffers::NativeTable {
   typedef Rubberboat TableType;
 };
 
-struct Rubberboat FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Rubberboat FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef RubberboatT NativeTableType;
   typedef RubberboatBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  RubberboatT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(RubberboatT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Rubberboat> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const RubberboatT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  RubberboatT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(RubberboatT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Rubberboat> Pack(flatbuffers::FlatBufferBuilder &_fbb, const RubberboatT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct RubberboatBuilder {
   typedef Rubberboat Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit RubberboatBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit RubberboatBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Rubberboat> Finish() {
+  flatbuffers::Offset<Rubberboat> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Rubberboat>(end);
+    auto o = flatbuffers::Offset<Rubberboat>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Rubberboat> CreateRubberboat(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<Rubberboat> CreateRubberboat(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   RubberboatBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -2243,9 +2142,9 @@ struct Rubberboat::Traits {
   static auto constexpr Create = CreateRubberboat;
 };
 
-::flatbuffers::Offset<Rubberboat> CreateRubberboat(::flatbuffers::FlatBufferBuilder &_fbb, const RubberboatT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Rubberboat> CreateRubberboat(flatbuffers::FlatBufferBuilder &_fbb, const RubberboatT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct PushableT : public ::flatbuffers::NativeTable {
+struct PushableT : public flatbuffers::NativeTable {
   typedef Pushable TableType;
   int32_t pushable_behaviour_state = 0;
   float pushable_gravity = 0.0f;
@@ -2271,7 +2170,7 @@ struct PushableT : public ::flatbuffers::NativeTable {
   bool pushable_west_climbable = false;
 };
 
-struct Pushable FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Pushable FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef PushableT NativeTableType;
   typedef PushableBuilder Builder;
   struct Traits;
@@ -2365,41 +2264,41 @@ struct Pushable FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   bool pushable_west_climbable() const {
     return GetField<uint8_t>(VT_PUSHABLE_WEST_CLIMBABLE, 0) != 0;
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_PUSHABLE_BEHAVIOUR_STATE, 4) &&
-           VerifyField<float>(verifier, VT_PUSHABLE_GRAVITY, 4) &&
-           VerifyField<float>(verifier, VT_PUSHABLE_WATER_FORCE, 4) &&
-           VerifyField<int32_t>(verifier, VT_PUSHABLE_STACK_LIMIT, 4) &&
-           VerifyField<int32_t>(verifier, VT_PUSHABLE_STACK_UPPER, 4) &&
-           VerifyField<int32_t>(verifier, VT_PUSHABLE_STACK_LOWER, 4) &&
-           VerifyField<int32_t>(verifier, VT_PUSHABLE_START_X, 4) &&
-           VerifyField<int32_t>(verifier, VT_PUSHABLE_START_Z, 4) &&
-           VerifyField<int32_t>(verifier, VT_PUSHABLE_ROOM_NUMBER, 4) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_COLLIDER_FLAG, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_NORTH_PULLABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_NORTH_PUSHABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_NORTH_CLIMBABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_EAST_PULLABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_EAST_PUSHABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_EAST_CLIMBABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_SOUTH_PULLABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_SOUTH_PUSHABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_SOUTH_CLIMBABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_WEST_PULLABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_WEST_PUSHABLE, 1) &&
-           VerifyField<uint8_t>(verifier, VT_PUSHABLE_WEST_CLIMBABLE, 1) &&
+           VerifyField<int32_t>(verifier, VT_PUSHABLE_BEHAVIOUR_STATE) &&
+           VerifyField<float>(verifier, VT_PUSHABLE_GRAVITY) &&
+           VerifyField<float>(verifier, VT_PUSHABLE_WATER_FORCE) &&
+           VerifyField<int32_t>(verifier, VT_PUSHABLE_STACK_LIMIT) &&
+           VerifyField<int32_t>(verifier, VT_PUSHABLE_STACK_UPPER) &&
+           VerifyField<int32_t>(verifier, VT_PUSHABLE_STACK_LOWER) &&
+           VerifyField<int32_t>(verifier, VT_PUSHABLE_START_X) &&
+           VerifyField<int32_t>(verifier, VT_PUSHABLE_START_Z) &&
+           VerifyField<int32_t>(verifier, VT_PUSHABLE_ROOM_NUMBER) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_COLLIDER_FLAG) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_NORTH_PULLABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_NORTH_PUSHABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_NORTH_CLIMBABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_EAST_PULLABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_EAST_PUSHABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_EAST_CLIMBABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_SOUTH_PULLABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_SOUTH_PUSHABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_SOUTH_CLIMBABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_WEST_PULLABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_WEST_PUSHABLE) &&
+           VerifyField<uint8_t>(verifier, VT_PUSHABLE_WEST_CLIMBABLE) &&
            verifier.EndTable();
   }
-  PushableT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(PushableT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Pushable> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PushableT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  PushableT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(PushableT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Pushable> Pack(flatbuffers::FlatBufferBuilder &_fbb, const PushableT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct PushableBuilder {
   typedef Pushable Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_pushable_behaviour_state(int32_t pushable_behaviour_state) {
     fbb_.AddElement<int32_t>(Pushable::VT_PUSHABLE_BEHAVIOUR_STATE, pushable_behaviour_state, 0);
   }
@@ -2466,19 +2365,19 @@ struct PushableBuilder {
   void add_pushable_west_climbable(bool pushable_west_climbable) {
     fbb_.AddElement<uint8_t>(Pushable::VT_PUSHABLE_WEST_CLIMBABLE, static_cast<uint8_t>(pushable_west_climbable), 0);
   }
-  explicit PushableBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit PushableBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Pushable> Finish() {
+  flatbuffers::Offset<Pushable> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Pushable>(end);
+    auto o = flatbuffers::Offset<Pushable>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Pushable> CreatePushable(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<Pushable> CreatePushable(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t pushable_behaviour_state = 0,
     float pushable_gravity = 0.0f,
     float pushable_water_force = 0.0f,
@@ -2532,9 +2431,9 @@ struct Pushable::Traits {
   static auto constexpr Create = CreatePushable;
 };
 
-::flatbuffers::Offset<Pushable> CreatePushable(::flatbuffers::FlatBufferBuilder &_fbb, const PushableT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Pushable> CreatePushable(flatbuffers::FlatBufferBuilder &_fbb, const PushableT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct MinecartT : public ::flatbuffers::NativeTable {
+struct MinecartT : public flatbuffers::NativeTable {
   typedef Minecart TableType;
   int32_t turn_rot = 0;
   int32_t turn_x = 0;
@@ -2549,7 +2448,7 @@ struct MinecartT : public ::flatbuffers::NativeTable {
   int32_t flags = 0;
 };
 
-struct Minecart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Minecart FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef MinecartT NativeTableType;
   typedef MinecartBuilder Builder;
   struct Traits;
@@ -2599,30 +2498,30 @@ struct Minecart FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t flags() const {
     return GetField<int32_t>(VT_FLAGS, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_TURN_ROT, 4) &&
-           VerifyField<int32_t>(verifier, VT_TURN_X, 4) &&
-           VerifyField<int32_t>(verifier, VT_TURN_Z, 4) &&
-           VerifyField<int32_t>(verifier, VT_TURN_LEN, 4) &&
-           VerifyField<int32_t>(verifier, VT_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_VERTICAL_VELOCITY, 4) &&
-           VerifyField<int32_t>(verifier, VT_GRADIENT, 4) &&
-           VerifyField<int32_t>(verifier, VT_STOP_DELAY, 4) &&
-           VerifyField<int32_t>(verifier, VT_FLOOR_HEIGHT_MIDDLE, 4) &&
-           VerifyField<int32_t>(verifier, VT_FLOOR_HEIGHT_FRONT, 4) &&
-           VerifyField<int32_t>(verifier, VT_FLAGS, 4) &&
+           VerifyField<int32_t>(verifier, VT_TURN_ROT) &&
+           VerifyField<int32_t>(verifier, VT_TURN_X) &&
+           VerifyField<int32_t>(verifier, VT_TURN_Z) &&
+           VerifyField<int32_t>(verifier, VT_TURN_LEN) &&
+           VerifyField<int32_t>(verifier, VT_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_VERTICAL_VELOCITY) &&
+           VerifyField<int32_t>(verifier, VT_GRADIENT) &&
+           VerifyField<int32_t>(verifier, VT_STOP_DELAY) &&
+           VerifyField<int32_t>(verifier, VT_FLOOR_HEIGHT_MIDDLE) &&
+           VerifyField<int32_t>(verifier, VT_FLOOR_HEIGHT_FRONT) &&
+           VerifyField<int32_t>(verifier, VT_FLAGS) &&
            verifier.EndTable();
   }
-  MinecartT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(MinecartT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Minecart> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MinecartT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  MinecartT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(MinecartT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Minecart> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MinecartT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct MinecartBuilder {
   typedef Minecart Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_turn_rot(int32_t turn_rot) {
     fbb_.AddElement<int32_t>(Minecart::VT_TURN_ROT, turn_rot, 0);
   }
@@ -2656,19 +2555,19 @@ struct MinecartBuilder {
   void add_flags(int32_t flags) {
     fbb_.AddElement<int32_t>(Minecart::VT_FLAGS, flags, 0);
   }
-  explicit MinecartBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit MinecartBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Minecart> Finish() {
+  flatbuffers::Offset<Minecart> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Minecart>(end);
+    auto o = flatbuffers::Offset<Minecart>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Minecart> CreateMinecart(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<Minecart> CreateMinecart(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t turn_rot = 0,
     int32_t turn_x = 0,
     int32_t turn_z = 0,
@@ -2700,42 +2599,42 @@ struct Minecart::Traits {
   static auto constexpr Create = CreateMinecart;
 };
 
-::flatbuffers::Offset<Minecart> CreateMinecart(::flatbuffers::FlatBufferBuilder &_fbb, const MinecartT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Minecart> CreateMinecart(flatbuffers::FlatBufferBuilder &_fbb, const MinecartT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct LaraInfoT : public ::flatbuffers::NativeTable {
+struct LaraInfoT : public flatbuffers::NativeTable {
   typedef LaraInfo TableType;
 };
 
-struct LaraInfo FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct LaraInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef LaraInfoT NativeTableType;
   typedef LaraInfoBuilder Builder;
   struct Traits;
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            verifier.EndTable();
   }
-  LaraInfoT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(LaraInfoT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<LaraInfo> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const LaraInfoT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  LaraInfoT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(LaraInfoT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<LaraInfo> Pack(flatbuffers::FlatBufferBuilder &_fbb, const LaraInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct LaraInfoBuilder {
   typedef LaraInfo Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  explicit LaraInfoBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  explicit LaraInfoBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<LaraInfo> Finish() {
+  flatbuffers::Offset<LaraInfo> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<LaraInfo>(end);
+    auto o = flatbuffers::Offset<LaraInfo>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<LaraInfo> CreateLaraInfo(
-    ::flatbuffers::FlatBufferBuilder &_fbb) {
+inline flatbuffers::Offset<LaraInfo> CreateLaraInfo(
+    flatbuffers::FlatBufferBuilder &_fbb) {
   LaraInfoBuilder builder_(_fbb);
   return builder_.Finish();
 }
@@ -2745,14 +2644,14 @@ struct LaraInfo::Traits {
   static auto constexpr Create = CreateLaraInfo;
 };
 
-::flatbuffers::Offset<LaraInfo> CreateLaraInfo(::flatbuffers::FlatBufferBuilder &_fbb, const LaraInfoT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<LaraInfo> CreateLaraInfo(flatbuffers::FlatBufferBuilder &_fbb, const LaraInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct ItemNumberT : public ::flatbuffers::NativeTable {
+struct ItemNumberT : public flatbuffers::NativeTable {
   typedef ItemNumber TableType;
   int16_t num = 0;
 };
 
-struct ItemNumber FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct ItemNumber FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef ItemNumberT NativeTableType;
   typedef ItemNumberBuilder Builder;
   struct Traits;
@@ -2762,36 +2661,36 @@ struct ItemNumber FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int16_t num() const {
     return GetField<int16_t>(VT_NUM, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int16_t>(verifier, VT_NUM, 2) &&
+           VerifyField<int16_t>(verifier, VT_NUM) &&
            verifier.EndTable();
   }
-  ItemNumberT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(ItemNumberT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<ItemNumber> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemNumberT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  ItemNumberT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ItemNumberT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<ItemNumber> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ItemNumberT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct ItemNumberBuilder {
   typedef ItemNumber Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_num(int16_t num) {
     fbb_.AddElement<int16_t>(ItemNumber::VT_NUM, num, 0);
   }
-  explicit ItemNumberBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit ItemNumberBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<ItemNumber> Finish() {
+  flatbuffers::Offset<ItemNumber> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<ItemNumber>(end);
+    auto o = flatbuffers::Offset<ItemNumber>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<ItemNumber> CreateItemNumber(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<ItemNumber> CreateItemNumber(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int16_t num = 0) {
   ItemNumberBuilder builder_(_fbb);
   builder_.add_num(num);
@@ -2803,14 +2702,14 @@ struct ItemNumber::Traits {
   static auto constexpr Create = CreateItemNumber;
 };
 
-::flatbuffers::Offset<ItemNumber> CreateItemNumber(::flatbuffers::FlatBufferBuilder &_fbb, const ItemNumberT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<ItemNumber> CreateItemNumber(flatbuffers::FlatBufferBuilder &_fbb, const ItemNumberT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct ShortT : public ::flatbuffers::NativeTable {
+struct ShortT : public flatbuffers::NativeTable {
   typedef Short TableType;
   int16_t scalar = 0;
 };
 
-struct Short FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Short FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef ShortT NativeTableType;
   typedef ShortBuilder Builder;
   struct Traits;
@@ -2820,36 +2719,36 @@ struct Short FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int16_t scalar() const {
     return GetField<int16_t>(VT_SCALAR, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int16_t>(verifier, VT_SCALAR, 2) &&
+           VerifyField<int16_t>(verifier, VT_SCALAR) &&
            verifier.EndTable();
   }
-  ShortT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(ShortT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Short> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ShortT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  ShortT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ShortT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Short> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ShortT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct ShortBuilder {
   typedef Short Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_scalar(int16_t scalar) {
     fbb_.AddElement<int16_t>(Short::VT_SCALAR, scalar, 0);
   }
-  explicit ShortBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit ShortBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Short> Finish() {
+  flatbuffers::Offset<Short> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Short>(end);
+    auto o = flatbuffers::Offset<Short>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Short> CreateShort(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<Short> CreateShort(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int16_t scalar = 0) {
   ShortBuilder builder_(_fbb);
   builder_.add_scalar(scalar);
@@ -2861,14 +2760,14 @@ struct Short::Traits {
   static auto constexpr Create = CreateShort;
 };
 
-::flatbuffers::Offset<Short> CreateShort(::flatbuffers::FlatBufferBuilder &_fbb, const ShortT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Short> CreateShort(flatbuffers::FlatBufferBuilder &_fbb, const ShortT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct IntT : public ::flatbuffers::NativeTable {
+struct IntT : public flatbuffers::NativeTable {
   typedef Int TableType;
   int32_t scalar = 0;
 };
 
-struct Int FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Int FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef IntT NativeTableType;
   typedef IntBuilder Builder;
   struct Traits;
@@ -2878,36 +2777,36 @@ struct Int FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   int32_t scalar() const {
     return GetField<int32_t>(VT_SCALAR, 0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_SCALAR, 4) &&
+           VerifyField<int32_t>(verifier, VT_SCALAR) &&
            verifier.EndTable();
   }
-  IntT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(IntT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Int> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const IntT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  IntT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(IntT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Int> Pack(flatbuffers::FlatBufferBuilder &_fbb, const IntT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct IntBuilder {
   typedef Int Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_scalar(int32_t scalar) {
     fbb_.AddElement<int32_t>(Int::VT_SCALAR, scalar, 0);
   }
-  explicit IntBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit IntBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Int> Finish() {
+  flatbuffers::Offset<Int> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Int>(end);
+    auto o = flatbuffers::Offset<Int>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Int> CreateInt(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<Int> CreateInt(
+    flatbuffers::FlatBufferBuilder &_fbb,
     int32_t scalar = 0) {
   IntBuilder builder_(_fbb);
   builder_.add_scalar(scalar);
@@ -2919,14 +2818,14 @@ struct Int::Traits {
   static auto constexpr Create = CreateInt;
 };
 
-::flatbuffers::Offset<Int> CreateInt(::flatbuffers::FlatBufferBuilder &_fbb, const IntT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Int> CreateInt(flatbuffers::FlatBufferBuilder &_fbb, const IntT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct FloatT : public ::flatbuffers::NativeTable {
+struct FloatT : public flatbuffers::NativeTable {
   typedef Float TableType;
   double scalar = 0.0;
 };
 
-struct Float FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct Float FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef FloatT NativeTableType;
   typedef FloatBuilder Builder;
   struct Traits;
@@ -2936,36 +2835,36 @@ struct Float FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   double scalar() const {
     return GetField<double>(VT_SCALAR, 0.0);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<double>(verifier, VT_SCALAR, 8) &&
+           VerifyField<double>(verifier, VT_SCALAR) &&
            verifier.EndTable();
   }
-  FloatT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(FloatT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<Float> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const FloatT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  FloatT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(FloatT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<Float> Pack(flatbuffers::FlatBufferBuilder &_fbb, const FloatT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct FloatBuilder {
   typedef Float Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_scalar(double scalar) {
     fbb_.AddElement<double>(Float::VT_SCALAR, scalar, 0.0);
   }
-  explicit FloatBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit FloatBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<Float> Finish() {
+  flatbuffers::Offset<Float> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<Float>(end);
+    auto o = flatbuffers::Offset<Float>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<Float> CreateFloat(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<Float> CreateFloat(
+    flatbuffers::FlatBufferBuilder &_fbb,
     double scalar = 0.0) {
   FloatBuilder builder_(_fbb);
   builder_.add_scalar(scalar);
@@ -2977,55 +2876,55 @@ struct Float::Traits {
   static auto constexpr Create = CreateFloat;
 };
 
-::flatbuffers::Offset<Float> CreateFloat(::flatbuffers::FlatBufferBuilder &_fbb, const FloatT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<Float> CreateFloat(flatbuffers::FlatBufferBuilder &_fbb, const FloatT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct ShortArrayT : public ::flatbuffers::NativeTable {
+struct ShortArrayT : public flatbuffers::NativeTable {
   typedef ShortArray TableType;
   std::vector<int16_t> arr{};
 };
 
-struct ShortArray FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct ShortArray FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef ShortArrayT NativeTableType;
   typedef ShortArrayBuilder Builder;
   struct Traits;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_ARR = 4
   };
-  const ::flatbuffers::Vector<int16_t> *arr() const {
-    return GetPointer<const ::flatbuffers::Vector<int16_t> *>(VT_ARR);
+  const flatbuffers::Vector<int16_t> *arr() const {
+    return GetPointer<const flatbuffers::Vector<int16_t> *>(VT_ARR);
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_ARR) &&
            verifier.VerifyVector(arr()) &&
            verifier.EndTable();
   }
-  ShortArrayT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(ShortArrayT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<ShortArray> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ShortArrayT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  ShortArrayT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(ShortArrayT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<ShortArray> Pack(flatbuffers::FlatBufferBuilder &_fbb, const ShortArrayT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct ShortArrayBuilder {
   typedef ShortArray Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_arr(::flatbuffers::Offset<::flatbuffers::Vector<int16_t>> arr) {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_arr(flatbuffers::Offset<flatbuffers::Vector<int16_t>> arr) {
     fbb_.AddOffset(ShortArray::VT_ARR, arr);
   }
-  explicit ShortArrayBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit ShortArrayBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<ShortArray> Finish() {
+  flatbuffers::Offset<ShortArray> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<ShortArray>(end);
+    auto o = flatbuffers::Offset<ShortArray>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<ShortArray> CreateShortArray(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<::flatbuffers::Vector<int16_t>> arr = 0) {
+inline flatbuffers::Offset<ShortArray> CreateShortArray(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<flatbuffers::Vector<int16_t>> arr = 0) {
   ShortArrayBuilder builder_(_fbb);
   builder_.add_arr(arr);
   return builder_.Finish();
@@ -3036,8 +2935,8 @@ struct ShortArray::Traits {
   static auto constexpr Create = CreateShortArray;
 };
 
-inline ::flatbuffers::Offset<ShortArray> CreateShortArrayDirect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<ShortArray> CreateShortArrayDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
     const std::vector<int16_t> *arr = nullptr) {
   auto arr__ = arr ? _fbb.CreateVector<int16_t>(*arr) : 0;
   return TEN::Save::CreateShortArray(
@@ -3045,34 +2944,15 @@ inline ::flatbuffers::Offset<ShortArray> CreateShortArrayDirect(
       arr__);
 }
 
-::flatbuffers::Offset<ShortArray> CreateShortArray(::flatbuffers::FlatBufferBuilder &_fbb, const ShortArrayT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<ShortArray> CreateShortArray(flatbuffers::FlatBufferBuilder &_fbb, const ShortArrayT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-inline CreatureTargetT::CreatureTargetT(const CreatureTargetT &o)
-      : object_number(o.object_number),
-        room_number(o.room_number),
-        box_number(o.box_number),
-        flags(o.flags),
-        trigger_flags(o.trigger_flags),
-        position((o.position) ? new TEN::Save::Pose(*o.position) : nullptr) {
-}
-
-inline CreatureTargetT &CreatureTargetT::operator=(CreatureTargetT o) FLATBUFFERS_NOEXCEPT {
-  std::swap(object_number, o.object_number);
-  std::swap(room_number, o.room_number);
-  std::swap(box_number, o.box_number);
-  std::swap(flags, o.flags);
-  std::swap(trigger_flags, o.trigger_flags);
-  std::swap(position, o.position);
-  return *this;
-}
-
-inline CreatureTargetT *CreatureTarget::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline CreatureTargetT *CreatureTarget::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<CreatureTargetT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void CreatureTarget::UnPackTo(CreatureTargetT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void CreatureTarget::UnPackTo(CreatureTargetT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = object_number(); _o->object_number = _e; }
@@ -3083,20 +2963,20 @@ inline void CreatureTarget::UnPackTo(CreatureTargetT *_o, const ::flatbuffers::r
   { auto _e = position(); if (_e) _o->position = std::unique_ptr<TEN::Save::Pose>(new TEN::Save::Pose(*_e)); }
 }
 
-inline ::flatbuffers::Offset<CreatureTarget> CreatureTarget::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const CreatureTargetT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<CreatureTarget> CreatureTarget::Pack(flatbuffers::FlatBufferBuilder &_fbb, const CreatureTargetT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateCreatureTarget(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<CreatureTarget> CreateCreatureTarget(::flatbuffers::FlatBufferBuilder &_fbb, const CreatureTargetT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<CreatureTarget> CreateCreatureTarget(flatbuffers::FlatBufferBuilder &_fbb, const CreatureTargetT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const CreatureTargetT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const CreatureTargetT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _object_number = _o->object_number;
   auto _room_number = _o->room_number;
   auto _box_number = _o->box_number;
   auto _flags = _o->flags;
   auto _trigger_flags = _o->trigger_flags;
-  auto _position = _o->position ? _o->position.get() : nullptr;
+  auto _position = _o->position ? _o->position.get() : 0;
   return TEN::Save::CreateCreatureTarget(
       _fbb,
       _object_number,
@@ -3107,17 +2987,17 @@ inline ::flatbuffers::Offset<CreatureTarget> CreateCreatureTarget(::flatbuffers:
       _position);
 }
 
-inline CreatureT *Creature::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline CreatureT *Creature::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<CreatureT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Creature::UnPackTo(CreatureT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Creature::UnPackTo(CreatureT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = maximum_turn(); _o->maximum_turn = _e; }
-  { auto _e = joint_rotation(); if (_e) { _o->joint_rotation.resize(_e->size()); for (::flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->joint_rotation[_i] = _e->Get(_i); } } else { _o->joint_rotation.resize(0); } }
+  { auto _e = joint_rotation(); if (_e) { _o->joint_rotation.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->joint_rotation[_i] = _e->Get(_i); } } }
   { auto _e = head_left(); _o->head_left = _e; }
   { auto _e = head_right(); _o->head_right = _e; }
   { auto _e = patrol(); _o->patrol = _e; }
@@ -3143,14 +3023,14 @@ inline void Creature::UnPackTo(CreatureT *_o, const ::flatbuffers::resolver_func
   { auto _e = is_monkeying(); _o->is_monkeying = _e; }
 }
 
-inline ::flatbuffers::Offset<Creature> Creature::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const CreatureT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Creature> Creature::Pack(flatbuffers::FlatBufferBuilder &_fbb, const CreatureT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateCreature(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Creature> CreateCreature(::flatbuffers::FlatBufferBuilder &_fbb, const CreatureT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Creature> CreateCreature(flatbuffers::FlatBufferBuilder &_fbb, const CreatureT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const CreatureT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const CreatureT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _maximum_turn = _o->maximum_turn;
   auto _joint_rotation = _fbb.CreateVector(_o->joint_rotation);
   auto _head_left = _o->head_left;
@@ -3205,36 +3085,36 @@ inline ::flatbuffers::Offset<Creature> CreateCreature(::flatbuffers::FlatBufferB
       _is_monkeying);
 }
 
-inline LaserHeadT *LaserHead::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline LaserHeadT *LaserHead::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<LaserHeadT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void LaserHead::UnPackTo(LaserHeadT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void LaserHead::UnPackTo(LaserHeadT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<LaserHead> LaserHead::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const LaserHeadT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<LaserHead> LaserHead::Pack(flatbuffers::FlatBufferBuilder &_fbb, const LaserHeadT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateLaserHead(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<LaserHead> CreateLaserHead(::flatbuffers::FlatBufferBuilder &_fbb, const LaserHeadT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<LaserHead> CreateLaserHead(flatbuffers::FlatBufferBuilder &_fbb, const LaserHeadT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const LaserHeadT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const LaserHeadT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateLaserHead(
       _fbb);
 }
 
-inline QuadBikeT *QuadBike::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline QuadBikeT *QuadBike::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<QuadBikeT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void QuadBike::UnPackTo(QuadBikeT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void QuadBike::UnPackTo(QuadBikeT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = turn_rate(); _o->turn_rate = _e; }
@@ -3255,14 +3135,14 @@ inline void QuadBike::UnPackTo(QuadBikeT *_o, const ::flatbuffers::resolver_func
   { auto _e = flags(); _o->flags = _e; }
 }
 
-inline ::flatbuffers::Offset<QuadBike> QuadBike::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const QuadBikeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<QuadBike> QuadBike::Pack(flatbuffers::FlatBufferBuilder &_fbb, const QuadBikeT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateQuadBike(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<QuadBike> CreateQuadBike(::flatbuffers::FlatBufferBuilder &_fbb, const QuadBikeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<QuadBike> CreateQuadBike(flatbuffers::FlatBufferBuilder &_fbb, const QuadBikeT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const QuadBikeT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const QuadBikeT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _turn_rate = _o->turn_rate;
   auto _front_rot = _o->front_rot;
   auto _rear_rot = _o->rear_rot;
@@ -3299,113 +3179,82 @@ inline ::flatbuffers::Offset<QuadBike> CreateQuadBike(::flatbuffers::FlatBufferB
       _flags);
 }
 
-inline BigGunT *BigGun::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline BigGunT *BigGun::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<BigGunT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void BigGun::UnPackTo(BigGunT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void BigGun::UnPackTo(BigGunT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<BigGun> BigGun::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const BigGunT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<BigGun> BigGun::Pack(flatbuffers::FlatBufferBuilder &_fbb, const BigGunT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateBigGun(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<BigGun> CreateBigGun(::flatbuffers::FlatBufferBuilder &_fbb, const BigGunT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<BigGun> CreateBigGun(flatbuffers::FlatBufferBuilder &_fbb, const BigGunT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const BigGunT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const BigGunT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateBigGun(
       _fbb);
 }
 
-inline MotorbikeT *Motorbike::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline MotorbikeT *Motorbike::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<MotorbikeT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Motorbike::UnPackTo(MotorbikeT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Motorbike::UnPackTo(MotorbikeT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<Motorbike> Motorbike::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MotorbikeT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Motorbike> Motorbike::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MotorbikeT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateMotorbike(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Motorbike> CreateMotorbike(::flatbuffers::FlatBufferBuilder &_fbb, const MotorbikeT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Motorbike> CreateMotorbike(flatbuffers::FlatBufferBuilder &_fbb, const MotorbikeT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const MotorbikeT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MotorbikeT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateMotorbike(
       _fbb);
 }
 
-inline JeepT *Jeep::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline JeepT *Jeep::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<JeepT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Jeep::UnPackTo(JeepT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Jeep::UnPackTo(JeepT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<Jeep> Jeep::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const JeepT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Jeep> Jeep::Pack(flatbuffers::FlatBufferBuilder &_fbb, const JeepT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateJeep(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Jeep> CreateJeep(::flatbuffers::FlatBufferBuilder &_fbb, const JeepT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Jeep> CreateJeep(flatbuffers::FlatBufferBuilder &_fbb, const JeepT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const JeepT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const JeepT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateJeep(
       _fbb);
 }
 
-inline KayakT::KayakT(const KayakT &o)
-      : turn_rate(o.turn_rate),
-        velocity(o.velocity),
-        front_vertical_velocity(o.front_vertical_velocity),
-        left_vertical_velocity(o.left_vertical_velocity),
-        right_vertical_velocity(o.right_vertical_velocity),
-        left_right_count(o.left_right_count),
-        water_height(o.water_height),
-        old_pos((o.old_pos) ? new TEN::Save::Pose(*o.old_pos) : nullptr),
-        turn(o.turn),
-        forward(o.forward),
-        true_water(o.true_water),
-        flags(o.flags) {
-}
-
-inline KayakT &KayakT::operator=(KayakT o) FLATBUFFERS_NOEXCEPT {
-  std::swap(turn_rate, o.turn_rate);
-  std::swap(velocity, o.velocity);
-  std::swap(front_vertical_velocity, o.front_vertical_velocity);
-  std::swap(left_vertical_velocity, o.left_vertical_velocity);
-  std::swap(right_vertical_velocity, o.right_vertical_velocity);
-  std::swap(left_right_count, o.left_right_count);
-  std::swap(water_height, o.water_height);
-  std::swap(old_pos, o.old_pos);
-  std::swap(turn, o.turn);
-  std::swap(forward, o.forward);
-  std::swap(true_water, o.true_water);
-  std::swap(flags, o.flags);
-  return *this;
-}
-
-inline KayakT *Kayak::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline KayakT *Kayak::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<KayakT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Kayak::UnPackTo(KayakT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Kayak::UnPackTo(KayakT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = turn_rate(); _o->turn_rate = _e; }
@@ -3422,14 +3271,14 @@ inline void Kayak::UnPackTo(KayakT *_o, const ::flatbuffers::resolver_function_t
   { auto _e = flags(); _o->flags = _e; }
 }
 
-inline ::flatbuffers::Offset<Kayak> Kayak::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const KayakT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Kayak> Kayak::Pack(flatbuffers::FlatBufferBuilder &_fbb, const KayakT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateKayak(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Kayak> CreateKayak(::flatbuffers::FlatBufferBuilder &_fbb, const KayakT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Kayak> CreateKayak(flatbuffers::FlatBufferBuilder &_fbb, const KayakT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const KayakT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const KayakT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _turn_rate = _o->turn_rate;
   auto _velocity = _o->velocity;
   auto _front_vertical_velocity = _o->front_vertical_velocity;
@@ -3437,7 +3286,7 @@ inline ::flatbuffers::Offset<Kayak> CreateKayak(::flatbuffers::FlatBufferBuilder
   auto _right_vertical_velocity = _o->right_vertical_velocity;
   auto _left_right_count = _o->left_right_count;
   auto _water_height = _o->water_height;
-  auto _old_pos = _o->old_pos ? _o->old_pos.get() : nullptr;
+  auto _old_pos = _o->old_pos ? _o->old_pos.get() : 0;
   auto _turn = _o->turn;
   auto _forward = _o->forward;
   auto _true_water = _o->true_water;
@@ -3458,59 +3307,59 @@ inline ::flatbuffers::Offset<Kayak> CreateKayak(::flatbuffers::FlatBufferBuilder
       _flags);
 }
 
-inline DoorT *Door::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline DoorT *Door::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<DoorT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Door::UnPackTo(DoorT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Door::UnPackTo(DoorT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<Door> Door::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const DoorT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Door> Door::Pack(flatbuffers::FlatBufferBuilder &_fbb, const DoorT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateDoor(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Door> CreateDoor(::flatbuffers::FlatBufferBuilder &_fbb, const DoorT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Door> CreateDoor(flatbuffers::FlatBufferBuilder &_fbb, const DoorT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const DoorT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const DoorT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateDoor(
       _fbb);
 }
 
-inline SkidooT *Skidoo::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline SkidooT *Skidoo::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<SkidooT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Skidoo::UnPackTo(SkidooT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Skidoo::UnPackTo(SkidooT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<Skidoo> Skidoo::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const SkidooT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Skidoo> Skidoo::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SkidooT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateSkidoo(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Skidoo> CreateSkidoo(::flatbuffers::FlatBufferBuilder &_fbb, const SkidooT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Skidoo> CreateSkidoo(flatbuffers::FlatBufferBuilder &_fbb, const SkidooT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const SkidooT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SkidooT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateSkidoo(
       _fbb);
 }
 
-inline UPVT *UPV::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline UPVT *UPV::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<UPVT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void UPV::UnPackTo(UPVT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void UPV::UnPackTo(UPVT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = velocity(); _o->velocity = _e; }
@@ -3522,14 +3371,14 @@ inline void UPV::UnPackTo(UPVT *_o, const ::flatbuffers::resolver_function_t *_r
   { auto _e = flags(); _o->flags = _e; }
 }
 
-inline ::flatbuffers::Offset<UPV> UPV::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const UPVT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<UPV> UPV::Pack(flatbuffers::FlatBufferBuilder &_fbb, const UPVT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateUPV(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<UPV> CreateUPV(::flatbuffers::FlatBufferBuilder &_fbb, const UPVT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<UPV> CreateUPV(flatbuffers::FlatBufferBuilder &_fbb, const UPVT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const UPVT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const UPVT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _velocity = _o->velocity;
   auto _rot = _o->rot;
   auto _x_rot = _o->x_rot;
@@ -3548,82 +3397,82 @@ inline ::flatbuffers::Offset<UPV> CreateUPV(::flatbuffers::FlatBufferBuilder &_f
       _flags);
 }
 
-inline MotorboatT *Motorboat::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline MotorboatT *Motorboat::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<MotorboatT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Motorboat::UnPackTo(MotorboatT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Motorboat::UnPackTo(MotorboatT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<Motorboat> Motorboat::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MotorboatT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Motorboat> Motorboat::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MotorboatT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateMotorboat(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Motorboat> CreateMotorboat(::flatbuffers::FlatBufferBuilder &_fbb, const MotorboatT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Motorboat> CreateMotorboat(flatbuffers::FlatBufferBuilder &_fbb, const MotorboatT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const MotorboatT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MotorboatT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateMotorboat(
       _fbb);
 }
 
-inline WraithT *Wraith::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline WraithT *Wraith::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<WraithT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Wraith::UnPackTo(WraithT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Wraith::UnPackTo(WraithT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<Wraith> Wraith::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const WraithT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Wraith> Wraith::Pack(flatbuffers::FlatBufferBuilder &_fbb, const WraithT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateWraith(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Wraith> CreateWraith(::flatbuffers::FlatBufferBuilder &_fbb, const WraithT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Wraith> CreateWraith(flatbuffers::FlatBufferBuilder &_fbb, const WraithT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const WraithT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const WraithT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateWraith(
       _fbb);
 }
 
-inline RubberboatT *Rubberboat::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline RubberboatT *Rubberboat::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<RubberboatT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Rubberboat::UnPackTo(RubberboatT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Rubberboat::UnPackTo(RubberboatT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<Rubberboat> Rubberboat::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const RubberboatT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Rubberboat> Rubberboat::Pack(flatbuffers::FlatBufferBuilder &_fbb, const RubberboatT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateRubberboat(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Rubberboat> CreateRubberboat(::flatbuffers::FlatBufferBuilder &_fbb, const RubberboatT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Rubberboat> CreateRubberboat(flatbuffers::FlatBufferBuilder &_fbb, const RubberboatT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const RubberboatT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const RubberboatT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateRubberboat(
       _fbb);
 }
 
-inline PushableT *Pushable::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline PushableT *Pushable::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<PushableT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Pushable::UnPackTo(PushableT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Pushable::UnPackTo(PushableT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = pushable_behaviour_state(); _o->pushable_behaviour_state = _e; }
@@ -3650,14 +3499,14 @@ inline void Pushable::UnPackTo(PushableT *_o, const ::flatbuffers::resolver_func
   { auto _e = pushable_west_climbable(); _o->pushable_west_climbable = _e; }
 }
 
-inline ::flatbuffers::Offset<Pushable> Pushable::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const PushableT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Pushable> Pushable::Pack(flatbuffers::FlatBufferBuilder &_fbb, const PushableT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreatePushable(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Pushable> CreatePushable(::flatbuffers::FlatBufferBuilder &_fbb, const PushableT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Pushable> CreatePushable(flatbuffers::FlatBufferBuilder &_fbb, const PushableT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const PushableT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const PushableT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _pushable_behaviour_state = _o->pushable_behaviour_state;
   auto _pushable_gravity = _o->pushable_gravity;
   auto _pushable_water_force = _o->pushable_water_force;
@@ -3706,13 +3555,13 @@ inline ::flatbuffers::Offset<Pushable> CreatePushable(::flatbuffers::FlatBufferB
       _pushable_west_climbable);
 }
 
-inline MinecartT *Minecart::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline MinecartT *Minecart::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<MinecartT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Minecart::UnPackTo(MinecartT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Minecart::UnPackTo(MinecartT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = turn_rot(); _o->turn_rot = _e; }
@@ -3728,14 +3577,14 @@ inline void Minecart::UnPackTo(MinecartT *_o, const ::flatbuffers::resolver_func
   { auto _e = flags(); _o->flags = _e; }
 }
 
-inline ::flatbuffers::Offset<Minecart> Minecart::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const MinecartT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Minecart> Minecart::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MinecartT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateMinecart(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Minecart> CreateMinecart(::flatbuffers::FlatBufferBuilder &_fbb, const MinecartT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Minecart> CreateMinecart(flatbuffers::FlatBufferBuilder &_fbb, const MinecartT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const MinecartT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MinecartT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _turn_rot = _o->turn_rot;
   auto _turn_x = _o->turn_x;
   auto _turn_z = _o->turn_z;
@@ -3762,160 +3611,160 @@ inline ::flatbuffers::Offset<Minecart> CreateMinecart(::flatbuffers::FlatBufferB
       _flags);
 }
 
-inline LaraInfoT *LaraInfo::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline LaraInfoT *LaraInfo::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<LaraInfoT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void LaraInfo::UnPackTo(LaraInfoT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void LaraInfo::UnPackTo(LaraInfoT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
 }
 
-inline ::flatbuffers::Offset<LaraInfo> LaraInfo::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const LaraInfoT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<LaraInfo> LaraInfo::Pack(flatbuffers::FlatBufferBuilder &_fbb, const LaraInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateLaraInfo(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<LaraInfo> CreateLaraInfo(::flatbuffers::FlatBufferBuilder &_fbb, const LaraInfoT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<LaraInfo> CreateLaraInfo(flatbuffers::FlatBufferBuilder &_fbb, const LaraInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const LaraInfoT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const LaraInfoT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   return TEN::Save::CreateLaraInfo(
       _fbb);
 }
 
-inline ItemNumberT *ItemNumber::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline ItemNumberT *ItemNumber::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<ItemNumberT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void ItemNumber::UnPackTo(ItemNumberT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void ItemNumber::UnPackTo(ItemNumberT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = num(); _o->num = _e; }
 }
 
-inline ::flatbuffers::Offset<ItemNumber> ItemNumber::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ItemNumberT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<ItemNumber> ItemNumber::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ItemNumberT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateItemNumber(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<ItemNumber> CreateItemNumber(::flatbuffers::FlatBufferBuilder &_fbb, const ItemNumberT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<ItemNumber> CreateItemNumber(flatbuffers::FlatBufferBuilder &_fbb, const ItemNumberT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ItemNumberT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ItemNumberT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _num = _o->num;
   return TEN::Save::CreateItemNumber(
       _fbb,
       _num);
 }
 
-inline ShortT *Short::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline ShortT *Short::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<ShortT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Short::UnPackTo(ShortT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Short::UnPackTo(ShortT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = scalar(); _o->scalar = _e; }
 }
 
-inline ::flatbuffers::Offset<Short> Short::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ShortT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Short> Short::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ShortT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateShort(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Short> CreateShort(::flatbuffers::FlatBufferBuilder &_fbb, const ShortT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Short> CreateShort(flatbuffers::FlatBufferBuilder &_fbb, const ShortT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ShortT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ShortT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _scalar = _o->scalar;
   return TEN::Save::CreateShort(
       _fbb,
       _scalar);
 }
 
-inline IntT *Int::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline IntT *Int::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<IntT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Int::UnPackTo(IntT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Int::UnPackTo(IntT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = scalar(); _o->scalar = _e; }
 }
 
-inline ::flatbuffers::Offset<Int> Int::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const IntT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Int> Int::Pack(flatbuffers::FlatBufferBuilder &_fbb, const IntT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateInt(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Int> CreateInt(::flatbuffers::FlatBufferBuilder &_fbb, const IntT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Int> CreateInt(flatbuffers::FlatBufferBuilder &_fbb, const IntT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const IntT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const IntT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _scalar = _o->scalar;
   return TEN::Save::CreateInt(
       _fbb,
       _scalar);
 }
 
-inline FloatT *Float::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline FloatT *Float::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<FloatT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void Float::UnPackTo(FloatT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void Float::UnPackTo(FloatT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = scalar(); _o->scalar = _e; }
 }
 
-inline ::flatbuffers::Offset<Float> Float::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const FloatT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Float> Float::Pack(flatbuffers::FlatBufferBuilder &_fbb, const FloatT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateFloat(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<Float> CreateFloat(::flatbuffers::FlatBufferBuilder &_fbb, const FloatT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<Float> CreateFloat(flatbuffers::FlatBufferBuilder &_fbb, const FloatT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const FloatT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const FloatT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _scalar = _o->scalar;
   return TEN::Save::CreateFloat(
       _fbb,
       _scalar);
 }
 
-inline ShortArrayT *ShortArray::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
+inline ShortArrayT *ShortArray::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   auto _o = std::make_unique<ShortArrayT>();
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void ShortArray::UnPackTo(ShortArrayT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void ShortArray::UnPackTo(ShortArrayT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = arr(); if (_e) { _o->arr.resize(_e->size()); for (::flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->arr[_i] = _e->Get(_i); } } else { _o->arr.resize(0); } }
+  { auto _e = arr(); if (_e) { _o->arr.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->arr[_i] = _e->Get(_i); } } }
 }
 
-inline ::flatbuffers::Offset<ShortArray> ShortArray::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ShortArrayT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<ShortArray> ShortArray::Pack(flatbuffers::FlatBufferBuilder &_fbb, const ShortArrayT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateShortArray(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<ShortArray> CreateShortArray(::flatbuffers::FlatBufferBuilder &_fbb, const ShortArrayT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<ShortArray> CreateShortArray(flatbuffers::FlatBufferBuilder &_fbb, const ShortArrayT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const ShortArrayT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const ShortArrayT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _arr = _fbb.CreateVector(_o->arr);
   return TEN::Save::CreateShortArray(
       _fbb,
       _arr);
 }
 
-inline bool VerifyItemData(::flatbuffers::Verifier &verifier, const void *obj, ItemData type) {
+inline bool VerifyItemData(flatbuffers::Verifier &verifier, const void *obj, ItemData type) {
   switch (type) {
     case ItemData::NONE: {
       return true;
@@ -4008,10 +3857,10 @@ inline bool VerifyItemData(::flatbuffers::Verifier &verifier, const void *obj, I
   }
 }
 
-inline bool VerifyItemDataVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<ItemData> *types) {
+inline bool VerifyItemDataVector(flatbuffers::Verifier &verifier, const flatbuffers::Vector<flatbuffers::Offset<void>> *values, const flatbuffers::Vector<uint8_t> *types) {
   if (!values || !types) return !values && !types;
   if (values->size() != types->size()) return false;
-  for (::flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
+  for (flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
     if (!VerifyItemData(
         verifier,  values->Get(i), types->GetEnum<ItemData>(i))) {
       return false;
@@ -4020,8 +3869,7 @@ inline bool VerifyItemDataVector(::flatbuffers::Verifier &verifier, const ::flat
   return true;
 }
 
-inline void *ItemDataUnion::UnPack(const void *obj, ItemData type, const ::flatbuffers::resolver_function_t *resolver) {
-  (void)resolver;
+inline void *ItemDataUnion::UnPack(const void *obj, ItemData type, const flatbuffers::resolver_function_t *resolver) {
   switch (type) {
     case ItemData::Int: {
       auto ptr = reinterpret_cast<const TEN::Save::Int *>(obj);
@@ -4111,8 +3959,7 @@ inline void *ItemDataUnion::UnPack(const void *obj, ItemData type, const ::flatb
   }
 }
 
-inline ::flatbuffers::Offset<void> ItemDataUnion::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const ::flatbuffers::rehasher_function_t *_rehasher) const {
-  (void)_rehasher;
+inline flatbuffers::Offset<void> ItemDataUnion::Pack(flatbuffers::FlatBufferBuilder &_fbb, const flatbuffers::rehasher_function_t *_rehasher) const {
   switch (type) {
     case ItemData::Int: {
       auto ptr = reinterpret_cast<const TEN::Save::IntT *>(value);
@@ -4253,7 +4100,7 @@ inline ItemDataUnion::ItemDataUnion(const ItemDataUnion &u) : type(u.type), valu
       break;
     }
     case ItemData::Kayak: {
-      value = new TEN::Save::KayakT(*reinterpret_cast<TEN::Save::KayakT *>(u.value));
+      FLATBUFFERS_ASSERT(false);  // TEN::Save::KayakT not copyable.
       break;
     }
     case ItemData::Door: {

@@ -1,8 +1,18 @@
+#include "framework.h"
 #include "Specific/Input/Input.h"
+
+#include <OISException.h>
+#include <OISForceFeedback.h>
+#include <OISInputManager.h>
+#include <OISJoyStick.h>
+#include <OISKeyboard.h>
+#include <OISMouse.h>
+
 #include "Game/camera.h"
 #include "Game/Gui.h"
 #include "Game/items.h"
 #include "Game/savegame.h"
+#include "Math/Math.h"
 #include "Renderer/Renderer.h"
 #include "Sound/sound.h"
 #include "Specific/clock.h"
@@ -11,6 +21,7 @@
 
 using namespace OIS;
 using namespace TEN::Gui;
+using namespace TEN::Math;
 using TEN::Renderer::g_Renderer;
 
 // Big TODO: Entire input system shouldn't be left exposed like this.

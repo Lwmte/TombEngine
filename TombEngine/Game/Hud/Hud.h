@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/Hud/PickupSummary.h"
 #include "Game/Hud/Speedometer.h"
 #include "Game/Hud/StatusBars.h"

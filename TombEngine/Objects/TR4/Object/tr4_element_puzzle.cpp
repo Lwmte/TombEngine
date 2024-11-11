@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "tr4_element_puzzle.h"
 
 #include "Specific/level.h"

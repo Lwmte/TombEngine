@@ -1,4 +1,6 @@
 #pragma once
+#include <functional>
+#include <string>
 
 #include "Scripting/Internal/ScriptAssert.h"
 
@@ -22,6 +24,7 @@ protected:
 	static callbackRemoveName s_callbackRemoveName;
 };
 
+
 // default callbacks
 template <typename T, typename S> callbackSetName<S> NamedBase<T, S>::s_callbackSetName = [](std::string const& n, S identifier) {
 		std::string err = "\"Set Name\" callback is not set.";
@@ -35,3 +38,4 @@ template <typename T, typename S> callbackRemoveName NamedBase<T, S>::s_callback
 		std::terminate();
 		return false;
 	};
+

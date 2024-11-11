@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Scripting/Include/Strings/StringsCommon.h"
 
 class ScriptInterfaceStringsHandler

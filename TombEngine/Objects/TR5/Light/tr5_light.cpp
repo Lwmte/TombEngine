@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Light/tr5_light.h"
 
 #include "Game/animation.h"
@@ -5,9 +6,12 @@
 #include "Game/control/los.h"
 #include "Game/effects/effects.h"
 #include "Game/items.h"
+#include "Math/Math.h"
 #include "Objects/TR5/Light/tr5_light_info.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
+
+using namespace TEN::Math;
 
 static ElectricalLightInfo& GetElectricalLightInfo(ItemInfo& item)
 {

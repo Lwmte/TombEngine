@@ -1,5 +1,12 @@
 #pragma once
 
+#include <cassert>
+#include <cstdlib>
+#include <cstring> // std::memcpy()
+#include <new>
+#include <type_traits>
+#include <vector>
+
 // Helper functions
 
 template <class T>

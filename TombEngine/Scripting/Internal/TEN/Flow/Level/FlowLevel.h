@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Scripting/Internal/TEN/Flow/SkyLayer/SkyLayer.h"
 #include "Scripting/Internal/TEN/Flow/LensFlare/LensFlare.h"
 #include "Scripting/Internal/TEN/Flow/Starfield/Starfield.h"

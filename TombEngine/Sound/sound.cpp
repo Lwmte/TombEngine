@@ -1,5 +1,8 @@
+#include "framework.h"
 #include "Sound/sound.h"
 
+#include <filesystem>
+#include <regex>
 #include <srtparser.h>
 
 #include "Game/camera.h"

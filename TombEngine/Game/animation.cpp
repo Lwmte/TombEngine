@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/animation.h"
 
 #include "Game/camera.h"
@@ -9,6 +10,7 @@
 #include "Game/Lara/lara.h"
 #include "Game/Lara/lara_helpers.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Objects/Generic/Object/rope.h"
 #include "Renderer/Renderer.h"
 #include "Sound/sound.h"
@@ -16,6 +18,7 @@
 
 using namespace TEN::Collision::Point;
 using namespace TEN::Entities::Generic;
+using namespace TEN::Math;
 using TEN::Renderer::g_Renderer;
 
 constexpr auto VERTICAL_VELOCITY_GRAVITY_THRESHOLD = CLICK(0.5f);

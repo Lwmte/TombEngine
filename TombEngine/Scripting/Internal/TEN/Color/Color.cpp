@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Scripting/Internal/TEN/Color/Color.h"
 
 /// Represents an RGBA or RGB color.

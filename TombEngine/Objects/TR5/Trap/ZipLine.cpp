@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Trap/ZipLine.h"
 
 #include "Game/animation.h"
@@ -8,11 +9,13 @@
 #include "Game/Lara/lara.h"
 #include "Game/Lara/lara_helpers.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "Specific/Input/Input.h"
 
 using namespace TEN::Collision::Point;
 using namespace TEN::Input;
+using namespace TEN::Math;
 
 namespace TEN::Entities::Traps
 {

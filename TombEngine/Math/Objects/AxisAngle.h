@@ -1,10 +1,10 @@
 #pragma once
 
-namespace TEN::Math
-{
-	class EulerAngles;
+class EulerAngles;
 
-	class AxisAngle 
+//namespace TEN::Math
+//{
+	class AxisAngle
 	{
 	private:
 		// Members
@@ -19,7 +19,7 @@ namespace TEN::Math
 
 		// Constructors
 
-		AxisAngle() = default;
+		AxisAngle() {};
 		AxisAngle(const Vector3& axis, short angle);
 		AxisAngle(const EulerAngles& eulers);
 		AxisAngle(const Quaternion& quat);
@@ -55,4 +55,4 @@ namespace TEN::Math
 		AxisAngle& operator *=(const AxisAngle& axisAngle);
 		AxisAngle  operator *(const AxisAngle& axisAngle) const;
 	};
-}
+//}

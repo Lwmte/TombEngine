@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/collision/collide_room.h"
 #include "Game/items.h"
 #include "Objects/Utils/VehicleHelpers.h"

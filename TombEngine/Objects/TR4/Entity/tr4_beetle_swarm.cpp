@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Entity/tr4_beetle_swarm.h"
 
 #include "Game/collision/collide_room.h"
@@ -7,6 +8,9 @@
 #include "Game/Lara/lara.h"
 #include "Game/Setup.h"
 #include "Specific/level.h"
+#include "Math/Math.h"
+
+using namespace TEN::Math;
 
 namespace TEN::Entities::TR4
 {

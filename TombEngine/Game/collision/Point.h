@@ -1,10 +1,12 @@
 #pragma once
-
 #include "Game/collision/collide_room.h"
+#include "Math/Math.h"
 
 enum RoomEnvFlags;
 class FloorInfo;
 struct ItemInfo;
+
+using namespace TEN::Math;
 
 namespace TEN::Collision::Point
 {

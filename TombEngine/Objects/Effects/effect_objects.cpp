@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Effects/effect_objects.h"
 
 #include "Game/Setup.h"

@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 
 // A fixed size vector-like class
 

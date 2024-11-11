@@ -1,9 +1,10 @@
 #pragma once
-
+#include "Math/Math.h"
 #include "Specific/Input/Input.h"
 #include "Renderer/RendererEnums.h"
 
 using namespace TEN::Input;
+using namespace TEN::Math;
 
 // Directories
 

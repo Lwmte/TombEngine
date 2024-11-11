@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Entity/tr4_harpy.h"
 
 #include "Game/animation.h"
@@ -14,10 +15,14 @@
 #include "Game/misc.h"
 #include "Game/people.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Renderer/RendererEnums.h"
 #include "Specific/level.h"
 
+using namespace TEN::Math;
+using namespace TEN::Math::Random;
 using namespace TEN::Effects::Spark;
+using std::vector;
 
 namespace TEN::Entities::TR4
 {

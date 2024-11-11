@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Scripting/Internal/TEN/Input/InputHandler.h"
 
 #include "Renderer/RendererEnums.h"

@@ -1,5 +1,6 @@
 #pragma once
 
+class GameVector;
 struct ItemInfo;
 
 namespace TEN::Entities::TR3

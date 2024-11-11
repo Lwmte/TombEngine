@@ -1,5 +1,7 @@
 #pragma once
 
+class EulerAngles;
+class GameVector;
 struct ItemInfo;
 
 namespace TEN::Entities::Creatures::TR5

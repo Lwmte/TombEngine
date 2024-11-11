@@ -1,9 +1,9 @@
 #pragma once
-
+#include "Math/Math.h"
 #include "Renderer/RendererEnums.h"
 
-enum GAME_OBJECT_ID : short;
 enum class LaraWeaponType;
+enum GAME_OBJECT_ID : short;
 struct CollisionInfo;
 struct ItemInfo;
 

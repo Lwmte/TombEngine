@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Entity/AutoGun.h"
 
 #include "Game/animation.h"
@@ -9,10 +10,12 @@
 #include "Game/Lara/lara.h"
 #include "Game/misc.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
 
 using namespace TEN::Collision::Sphere;
+using namespace TEN::Math;
 
 // NOTES:
 // ItemFlags[0]: X axis orientation.

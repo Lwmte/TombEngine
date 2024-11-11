@@ -1,3 +1,4 @@
+#include "framework.h"
 
 #include "Scripting/Internal/TEN/Strings/DisplayString/DisplayString.h"
 #include "Scripting/Internal/ScriptAssert.h"

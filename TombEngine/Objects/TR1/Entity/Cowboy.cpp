@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR1/Entity/Cowboy.h"
 
 #include "Game/control/box.h"

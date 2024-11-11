@@ -1,4 +1,9 @@
 #pragma once
+#include <string>
+
+#include "Math/Math.h"
+
+using namespace TEN::Math;
 
 struct LevelCameraInfo
 {

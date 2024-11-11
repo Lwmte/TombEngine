@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/control/control.h"
 
 // This might not be the exact amount of time that has passed, but giving it a

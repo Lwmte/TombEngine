@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/missile.h"
 
 #include "Game/animation.h"
@@ -11,12 +12,14 @@
 #include "Game/Lara/lara.h"
 #include "Game/items.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
 
 using namespace TEN::Collision::Point;;
 using namespace TEN::Effects::Bubble;
 using namespace TEN::Effects::Explosion;
+using namespace TEN::Math;
 
 constexpr auto MUTANT_SHARD_DAMAGE	= 30;
 constexpr auto MUTANT_BOMB_DAMAGE	= 100;

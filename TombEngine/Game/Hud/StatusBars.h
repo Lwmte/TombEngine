@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Renderer/Structures/RendererHudBar.h"
 
 enum GAME_OBJECT_ID : short;

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Objects/Utils/VehicleHelpers.h"
 
 struct CollisionInfo;

@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR3/Trap/ElectricCleaner.h"
 
 #include "Game/collision/collide_item.h"

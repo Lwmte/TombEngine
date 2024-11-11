@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Entity/tr5_reaper.h"
 
 #include "Game/control/box.h"

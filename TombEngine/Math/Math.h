@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Math/Constants.h"
 #include "Math/Geometry.h"
 #include "Math/Legacy.h"

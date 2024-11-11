@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Renderer/Renderer.h"
 
 using namespace TEN::Renderer::Graphics;

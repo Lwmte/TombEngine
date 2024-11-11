@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Specific/RGBAColor8Byte.h"
 
 static byte FloatComponentToByte(float value)

@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/animation.h"
 #include "Game/collision/collide_item.h"
 #include "Game/control/control.h"

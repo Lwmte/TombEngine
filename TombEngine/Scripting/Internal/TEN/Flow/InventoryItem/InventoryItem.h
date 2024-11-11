@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/Gui.h"
 #include "Scripting/Internal/TEN/Rotation/Rotation.h"
 

@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Object/Pushable/PushableEffects.h"
 
 #include "Game/effects/Bubble.h"

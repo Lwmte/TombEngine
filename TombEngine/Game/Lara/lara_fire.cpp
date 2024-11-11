@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/Lara/lara_fire.h"
 
 #include "Scripting/Include/Flow/ScriptInterfaceFlowHandler.h"
@@ -18,6 +19,7 @@
 #include "Game/misc.h"
 #include "Game/savegame.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Objects/Generic/Object/burning_torch.h"
 #include "Objects/Generic/Object/objects.h"
 #include "Scripting/Include/Objects/ScriptInterfaceObjectsHandler.h"
@@ -32,6 +34,7 @@
 using namespace TEN::Collision::Sphere;
 using namespace TEN::Entities::Generic;
 using namespace TEN::Input;
+using namespace TEN::Math;
 using namespace TEN::Utils;
 
 int FlashGrenadeAftershockTimer = 0;

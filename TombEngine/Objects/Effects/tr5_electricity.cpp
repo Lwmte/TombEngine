@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Effects/tr5_electricity.h"
 
 #include "Game/animation.h"

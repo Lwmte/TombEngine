@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Renderer/Graphics/RenderTarget2D.h"
 
 namespace TEN::Renderer::Structures

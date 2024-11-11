@@ -1,8 +1,10 @@
+#include "framework.h"
 #include "Specific/configuration.h"
 
 #include <CommCtrl.h>
 
 #include "Renderer/Renderer.h"
+#include "resource.h"
 #include "Scripting/Include/Flow/ScriptInterfaceFlowHandler.h"
 #include "Scripting/Internal/LanguageScript.h"
 #include "Specific/Input/Input.h"
@@ -579,6 +581,7 @@ LONG GetBoolRegKey(HKEY hKey, LPCSTR strValueName, bool* bValue, bool bDefaultVa
 
 	return nError;
 }
+
 
 LONG GetStringRegKey(HKEY hKey, LPCSTR strValueName, char** strValue, char* strDefaultValue)
 {

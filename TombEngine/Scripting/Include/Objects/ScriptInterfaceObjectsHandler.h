@@ -1,4 +1,6 @@
 #pragma once
+#include <functional>
+#include <string>
 
 #include "Scripting/Include/VarMapVal.h"
 #include "Specific/level.h"

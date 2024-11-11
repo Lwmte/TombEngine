@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR2/Trap/tr2_killerstatue.h"
 
 #include "Game/animation.h"

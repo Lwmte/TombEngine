@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/control/box.h"
 
 #include "Game/animation.h"
@@ -16,6 +17,7 @@
 #include "Game/pickup/pickup.h"
 #include "Game/room.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Objects/objectslist.h"
 #include "Objects/Generic/Object/Pushable/PushableObject.h"
 

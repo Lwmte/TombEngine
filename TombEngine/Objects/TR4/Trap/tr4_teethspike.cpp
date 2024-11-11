@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Trap/tr4_teethspike.h"
 
 #include "Game/camera.h"
@@ -8,6 +9,7 @@
 #include "Game/items.h"
 #include "Game/Lara/lara.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
 

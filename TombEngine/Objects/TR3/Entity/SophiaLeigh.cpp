@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR3/Entity/SophiaLeigh.h"
 
 #include "Game/animation.h"

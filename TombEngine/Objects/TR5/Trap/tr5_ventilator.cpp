@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Trap/tr5_ventilator.h"
 
 #include "Game/animation.h"

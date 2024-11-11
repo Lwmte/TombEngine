@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "SoundSourceObject.h"
 
 #include "Scripting/Internal/ReservedScriptNames.h"

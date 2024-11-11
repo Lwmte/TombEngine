@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "tr5_highobject.h"
 #include "Game/items.h"
 #include "Specific/level.h"

@@ -16,21 +16,25 @@ Tomb Engine should be used in conjuction with Tomb Editor. Tomb Editor is also o
 
 # Compiling TombEngine
 To compile TEN, ensure you have installed:
-- Microsoft Visual Studio 2022 Community Edition.
-- Tomb Editor (if you would like to create and test levels).
+- Microsoft Visual Studio 
+- Tomb Editor (if you would like to create and test levels)
 
 Steps:
-1) Clone this repository: https://github.com/microsoft/vcpkg with your GitHub Desktop.
-2) Use bootstrap-vcpkg.bat and wait until vcpkg.exe is done.
-3) Register vcpkg folder in your PATH, use this if you don't know how to: https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/
-4) Clone TombEngine repository to your GitHub Desktop.
-5) Use vcpkg_install_libraries.bat and wait until it finish.
-6) Launch TombEngine.sln and compile.
-7) Once compiled, you need to use the Game folder as assets folder.
-8) Copy everything inside the Build/bin/Win32 or x64/Debug or Release/ folder to the Game directory.
-9) Copy the Scripts folder to the Game directory.
-10) Ensure you have the necessary level data and textures files as well.
-11) In the case Windows warns about missing DLLs, (bass.dll, etc.) copy the missing DLL files found inside the Libs folder to your main TEN directory (vcpkg copy them auto).
+1) Clone the repository to your GitHub Desktop
+2) Open TombEngine.sln
+4) Compile the solution
+5) Once compiled, create a separate folder to serve as your main TEN directory (or create test TEN project using TombIDE)
+6) Copy everything inside the Build folder to the main TEN directory
+7) Ensure you have the necessary level data and texture files as well
+8) In the case Windows warns about missing DLLs, (bass.dll, etc.) copy the missing DLL files found inside the Libs folder to your main TEN directory.
+
+Visual Studio may also warn about NuGet packages. To fix:
+1) Delete the Packages folder
+2) Go back to Microsoft Visual Studio
+3) Right-click on the TombEngine solution in the Solution Explorer tab and select "Restore NuGet Packages"
+4) If it doesn't help, manually install  `directxtk_desktop_2019` and `Microsoft.XAudio2.Redist` packages via NuGet Package Manager
+
+Once done, you should be able to build a level with TombEditor and run it in TEN.
 
 # Disclaimer
 This is a community project which is not affiliated with Core Design, Eidos Interactive, or Square Enix. Tomb Raider is a registered trademark of Square Enix; TombEngine is not be sold. The code is open-source to encourage contributions and to be used for study purposes. We are not responsible for illegal uses of this source code. This source code is released as-is and continues to be maintained by non-paid contributors in their free time.

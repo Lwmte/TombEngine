@@ -1,4 +1,8 @@
+#include "framework.h"
 #include "Specific/level.h"
+
+#include <process.h>
+#include <zlib.h>
 
 #include "Game/animation.h"
 #include "Game/animation.h"

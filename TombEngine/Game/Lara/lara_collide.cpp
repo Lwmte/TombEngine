@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/Lara/lara_collide.h"
 
 #include "Game/animation.h"

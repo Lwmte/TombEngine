@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Scripting/Internal/TEN/Effects/EffectsFunctions.h"
 
 #include "Game/camera.h"

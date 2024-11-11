@@ -1,7 +1,9 @@
 #pragma once
-
-#include "Renderer/Graphics/Vertices/Vertex.h"
+#include <d3d11.h>
 #include "Renderer/RendererUtils.h"
+#include "Renderer/Graphics/Vertices/Vertex.h"
+#include <wrl/client.h>
+#include <vector>
 #include "Specific/fast_vector.h"
 
 using namespace TEN::Renderer::Graphics::Vertices;
@@ -41,11 +43,11 @@ namespace TEN::Renderer::Graphics
 				initData.pSysMem = vertices.data();
 				initData.SysMemPitch = sizeof(CVertex) * numVertices;
 
-				ThrowIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
 			}
 			else
 			{
-				ThrowIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
 			}
 
 			_numVertices = numVertices;
@@ -67,11 +69,11 @@ namespace TEN::Renderer::Graphics
 				initData.pSysMem = vertices.data();
 				initData.SysMemPitch = sizeof(CVertex) * numVertices;
 
-				ThrowIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
 			}
 			else
 			{
-				ThrowIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
 			}
 
 			_numVertices = numVertices;
@@ -93,11 +95,11 @@ namespace TEN::Renderer::Graphics
 				initData.pSysMem = vertices;
 				initData.SysMemPitch = sizeof(CVertex) * numVertices;
 
-				ThrowIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, &initData, &Buffer));
 			}
 			else
 			{
-				ThrowIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
+				throwIfFailed(device->CreateBuffer(&desc, nullptr, &Buffer));
 			}
 
 			_numVertices = numVertices;

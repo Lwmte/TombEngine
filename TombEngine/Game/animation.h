@@ -1,8 +1,13 @@
 #pragma once
-
+#include "Math/Math.h"
 #include "Objects/game_object_ids.h"
 
+using namespace TEN::Math;
+
 enum GAME_OBJECT_ID : short;
+class EulerAngles;
+class Pose;
+class Vector3i;
 struct CreatureBiteInfo;
 struct ItemInfo;
 struct ObjectInfo;

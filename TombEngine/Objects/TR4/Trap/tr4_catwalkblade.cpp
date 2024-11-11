@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Trap/tr4_catwalkblade.h"
 
 #include "Game/animation.h"

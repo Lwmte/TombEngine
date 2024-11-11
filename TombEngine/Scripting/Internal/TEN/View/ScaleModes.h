@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include <unordered_map>
 
 #include "Game/effects/DisplaySprite.h"
 

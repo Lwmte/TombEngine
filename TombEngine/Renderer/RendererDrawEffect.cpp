@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Renderer/Renderer.h"
 
 #include "Game/animation.h"
@@ -24,6 +25,7 @@
 #include "Game/Lara/lara.h"
 #include "Game/misc.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Objects/TR5/Trap/LaserBarrier.h"
 #include "Objects/TR5/Trap/LaserBeam.h"
 #include "Objects/Utils/object_helper.h"
@@ -42,6 +44,7 @@ using namespace TEN::Effects::Ripple;
 using namespace TEN::Effects::Streamer;
 using namespace TEN::Entities::Creatures::TR5;
 using namespace TEN::Entities::Traps;
+using namespace TEN::Math;
 
 extern BLOOD_STRUCT Blood[MAX_SPARKS_BLOOD];
 extern FIRE_SPARKS FireSparks[MAX_SPARKS_FIRE];

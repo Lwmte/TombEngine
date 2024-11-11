@@ -1,6 +1,7 @@
 #pragma once
-
 #include "Renderer/RendererEnums.h"
+#include <string>
+
 /***
 Constants for the post-process effects to apply.
 @enum View.PostProcessMode

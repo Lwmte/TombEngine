@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Switches/underwater_switch.h"
 
 #include "Game/animation.h"

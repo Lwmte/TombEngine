@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/people.h"
 
 #include "Game/animation.h"

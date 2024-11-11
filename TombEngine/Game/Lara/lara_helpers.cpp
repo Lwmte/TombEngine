@@ -1,4 +1,7 @@
+#include "framework.h"
 #include "Game/Lara/lara_helpers.h"
+
+#include <OISKeyboard.h>
 
 #include "Scripting/Include/Flow/ScriptInterfaceFlowHandler.h"
 #include "Game/camera.h"
@@ -18,6 +21,7 @@
 #include "Game/Lara/lara_tests.h"
 #include "Game/savegame.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Scripting/Include/ScriptInterfaceLevel.h"
 #include "Sound/sound.h"
 #include "Specific/Input/Input.h"
@@ -40,6 +44,7 @@ using namespace TEN::Effects::Drip;
 using namespace TEN::Entities::Player;
 using namespace TEN::Gui;
 using namespace TEN::Input;
+using namespace TEN::Math;
 
 // -----------------------------
 // HELPER FUNCTIONS

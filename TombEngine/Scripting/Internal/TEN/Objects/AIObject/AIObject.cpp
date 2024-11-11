@@ -1,4 +1,5 @@
 #pragma once
+#include "framework.h"
 
 #include "AIObject.h"
 #include "Scripting/Internal/ScriptAssert.h"

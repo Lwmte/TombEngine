@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR3/Vehicles/big_gun.h"
 
 #include "Game/animation.h"

@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR3/Entity/tr3_scuba_diver.h"
 
 #include "Game/collision/collide_room.h"
@@ -215,6 +216,7 @@ namespace TEN::Entities::Creatures::TR3
 				}
 
 				break;
+
 
 			case SDIVER_STATE_TREAD_WATER_IDLE:
 				creature->MaxTurn = SCUBA_DIVER_SWIM_TURN_RATE_MAX;

@@ -1,7 +1,12 @@
 #pragma once
+#include <array>
+#include <cstdint>
+#include <SimpleMath.h>
 
 namespace TEN::Renderer::ConstantBuffers
 {
+	using namespace DirectX::SimpleMath;
+
 	struct AnimatedFrame
 	{
 		Vector2 TopLeft;

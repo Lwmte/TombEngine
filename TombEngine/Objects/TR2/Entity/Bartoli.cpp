@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR2/Entity/Bartoli.h"
 
 #include "Game/camera.h"

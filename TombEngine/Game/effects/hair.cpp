@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/effects/Hair.h"
 
 #include "Game/animation.h"

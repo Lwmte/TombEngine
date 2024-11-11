@@ -1,6 +1,8 @@
+#include "framework.h"
 #include "tr5_bodypart.h"
 
 #include "Game/effects/effects.h"
+#include "Math/Math.h"
 #include "Sound/sound.h"
 #include "tr5_missile.h"
 #include "Game/Lara/lara.h"
@@ -9,8 +11,10 @@
 #include "Game/collision/Point.h"
 #include "Game/items.h"
 #include "Game/effects/tomb4fx.h"
+#include "Math/Random.h"
 
 using namespace TEN::Collision::Point;
+using namespace TEN::Math::Random;
 
 constexpr int BODY_PART_LIFE = 64;
 constexpr int BOUNCE_FALLSPEED = 32;
@@ -71,7 +75,7 @@ void ControlBodyPart(short fxNumber)
 	if ((fx->flag2 & BODY_DO_EXPLOSION) && !(fx->flag2 & BODY_NO_FLAME) &&
 		!TestEnvironment(RoomEnvFlags::ENV_FLAG_WATER, fx->roomNumber))
 	{
-		if (Random::GenerateInt(0, 10) > (abs(fx->fallspeed) > 0 ? 5 : 8))
+		if (GenerateInt(0, 10) > (abs(fx->fallspeed) > 0 ? 5 : 8))
 			TriggerFireFlame(fx->pos.Position.x, fx->pos.Position.y, fx->pos.Position.z, FlameType::Medium);
 	}
 
@@ -143,7 +147,7 @@ void ControlBodyPart(short fxNumber)
 						}
 						else if (fx->flag2 & BODY_GIBS)
 						{
-							SoundEffect(SFX_TR4_LARA_THUD, &fx->pos, SoundEnvironment::Land, Random::GenerateFloat(0.8f, 1.2f));
+							SoundEffect(SFX_TR4_LARA_THUD, &fx->pos, SoundEnvironment::Land, GenerateFloat(0.8f, 1.2f));
 						}
 					}
 				}
@@ -169,9 +173,9 @@ void ControlBodyPart(short fxNumber)
 				for (int i = 0; i < 6; i++)
 				{
 					TriggerFlashSmoke(
-						fx->pos.Position.x + Random::GenerateInt(-16, 16),
-						fx->pos.Position.y + Random::GenerateInt(16, 32),
-						fx->pos.Position.z + Random::GenerateInt(-16, 16), fx->roomNumber);
+						fx->pos.Position.x + GenerateInt(-16, 16),
+						fx->pos.Position.y + GenerateInt(16, 32),
+						fx->pos.Position.z + GenerateInt(-16, 16), fx->roomNumber);
 				}
 			}
 

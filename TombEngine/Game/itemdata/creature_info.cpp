@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/itemdata/creature_info.h"
 
 #include "Game/items.h"

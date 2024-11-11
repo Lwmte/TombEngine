@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Game/control/box.h"
 
 extern std::vector<CreatureInfo*> ActiveCreatures;

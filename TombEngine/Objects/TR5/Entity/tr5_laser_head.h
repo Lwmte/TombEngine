@@ -1,5 +1,6 @@
 #pragma once
 
+class Vector3i;
 struct ItemInfo;
 
 namespace TEN::Entities::Creatures::TR5

@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Game/room.h"
 
 #include "Game/collision/collide_room.h"
@@ -7,9 +8,11 @@
 #include "Game/control/volume.h"
 #include "Game/items.h"
 #include "Renderer/Renderer.h"
+#include "Math/Math.h"
 #include "Objects/game_object_ids.h"
 #include "Specific/trutils.h"
 
+using namespace TEN::Math;
 using namespace TEN::Collision::Floordata;
 using namespace TEN::Collision::Point;
 using namespace TEN::Renderer;

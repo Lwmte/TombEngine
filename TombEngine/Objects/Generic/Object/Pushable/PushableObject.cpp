@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/Generic/Object/Pushable/PushableObject.h"
 
 #include "Game/animation.h"

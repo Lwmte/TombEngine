@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Specific/level.h"
+#include "Math/Math.h"
 
 struct CreatureBiteInfo;
 struct CreatureInfo;

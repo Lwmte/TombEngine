@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Entity/tr5_chef.h"
 
 #include "Game/items.h"

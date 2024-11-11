@@ -1,7 +1,8 @@
 #pragma once
+#include <climits>
 
-namespace TEN::Math
-{
+//namespace TEN::Math
+//{
 	// Math constants
 
 	constexpr auto PI		= 3.14159265358979323846264338327950288419716939937510f;
@@ -33,4 +34,4 @@ namespace TEN::Math
 
 	constexpr auto WALL_MASK	  = BLOCK(1) - 1;
 	constexpr auto GRID_SNAP_SIZE = (int)BLOCK(1 / 8.0f);
-}
+//}

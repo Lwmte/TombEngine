@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR4/Trap/SquishyBlock.h"
 
 #include "Game/animation.h"

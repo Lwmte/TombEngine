@@ -1,3 +1,4 @@
+#include "framework.h"
 #include "Objects/TR5/Object/tr5_expandingplatform.h"
 
 #include "Game/animation.h"
@@ -9,11 +10,13 @@
 #include "Game/items.h"
 #include "Game/Lara/lara.h"
 #include "Game/Setup.h"
+#include "Math/Math.h"
 #include "Objects/Generic/Object/BridgeObject.h"
 #include "Sound/sound.h"
 #include "Specific/level.h"
 
 using namespace TEN::Collision::Floordata;
+using namespace TEN::Math;
 
 namespace TEN::Entities::Generic
 {
