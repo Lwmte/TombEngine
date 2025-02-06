@@ -6,7 +6,7 @@ TombEngine releases are located in this repository (alongside with Tomb Editor):
 ## [Version 1.7.X] (link to release) - yyyy-mm-dd
 
 ### Bug fixes
-* Fixed display pickup numeric string not being interpolated in 60FPS mode.
+* Fixed Trigger Triggerer not working.
 * Fixed two block platform room portal traversal failing in some cases.
 * Fixed dynamic light shadows not being handled correctly.
 * Fixed ricochet flashes after using explosive weapons.
@@ -17,6 +17,7 @@ TombEngine releases are located in this repository (alongside with Tomb Editor):
 * Fixed flickering rat emitter.
 * Fixed player model submerging into the floor while swimming underwater.
 * Fixed custom shatter sounds with custom sound IDs not playing correctly.
+* Fixed display pickup numeric string not being interpolated in high framerate mode.
 
 ### New Features
 * Added a particle based waterfall emitter object and associated sprite slots.
