@@ -16,7 +16,7 @@ TombEngine releases are located in this repository (alongside with Tomb Editor):
 * Fixed HK ammo not being visible in the inventory.
 * Fixed flickering rat emitter.
 * Fixed player model submerging into the floor while swimming underwater.
-* Fixed custom shatter sounds with custom sound IDs not playing correctly.
+* Fixed shatter sounds with custom sound IDs not playing correctly.
 * Fixed display pickup numeric string not being interpolated in high framerate mode.
 
 ### New Features
