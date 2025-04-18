@@ -37,5 +37,5 @@ Visual Studio may also warn about NuGet packages. To fix:
 Once done, you should be able to build a level with TombEditor and run it in TEN.
 
 # Disclaimer
-*Tomb Engine* uses modified MIT license for non-commercial use only. For more information, see [license]TombEngine/TombEngine/LICENSE. This community project is unaffiliated with Core Design, Eidos Interactive, or Embracer Group AB. *Tomb Raider* is a registered trademark of Embracer Group AB. The code is open-source to encourage contributions and for study purposes. Dev team is not responsible for illegal uses of this source code and/or illegal use of it combined with third-party assets. This source code is released as-is and continues to be maintained by non-paid contributors in their free time.
+*Tomb Engine* uses modified MIT license for non-commercial use only. For more information, see [license](LICENSE). This community project is unaffiliated with Core Design, Eidos Interactive, or Embracer Group AB. *Tomb Raider* is a registered trademark of Embracer Group AB. The code is open-source to encourage contributions and for study purposes. Dev team is not responsible for illegal uses of this source code and/or illegal use of it combined with third-party assets. This source code is released as-is and continues to be maintained by non-paid contributors in their free time.
 
